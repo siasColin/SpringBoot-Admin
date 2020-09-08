@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>common</module>
+        <module>Portal</module>
+        <module>CanalClient</module>
+        <module>Subsystem</module>
+    </modules>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.9.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>cn.net.colin</groupId>
+    <artifactId>springboot-admin</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>springboot-admin</name>
+    <description>SpringBoot-Admin</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <bootstrap.version>4.0.0</bootstrap.version>
+        <mysql.version>8.0.19</mysql.version>
+        <druid.verison>1.1.21</druid.verison>
+        <mybatis.verison>2.1.1</mybatis.verison>
+        <pagehelper.verison>1.2.13</pagehelper.verison>
+        <thymeleaf-extras-springsecurity5.verison>3.0.3.RELEASE</thymeleaf-extras-springsecurity5.verison>
+        <commons-lang3.verison>3.9</commons-lang3.verison>
+        <commons-codec.verison>1.9</commons-codec.verison>
+        <jsonwebtoken.verison>0.10.7</jsonwebtoken.verison>
+        <joda-time.verison>2.10.5</joda-time.verison>
+        <commons-pool2.verison>2.7.0</commons-pool2.verison>
+        <json.verison>20160810</json.verison>
+        <commons-fileupload.verison>1.3.3</commons-fileupload.verison>
+        <commons-codec.verison>1.9</commons-codec.verison>
+        <springfox-swagger2.verison>2.9.2</springfox-swagger2.verison>
+        <swagger-models.verison>1.5.21</swagger-models.verison>
+        <swagger-bootstrap-ui.verison>1.9.6</swagger-bootstrap-ui.verison>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--引入bootstrap-->
+            <dependency>
+                <groupId>org.webjars</groupId>
+                <artifactId>bootstrap</artifactId>
+                <version>${bootstrap.version}</version>
+            </dependency>
+            <!--mysql驱动-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!--引入alibaba 连接池 druid-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.verison}</version>
+            </dependency>
+            <!--mybatis 官方提供的和springboot整合的启动器-->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.verison}</version>
+            </dependency>
+            <!--mybatis 分页插件-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.verison}</version>
+            </dependency>
+            <!--对Thymeleaf添加Spring Security标签支持-->
+            <dependency>
+                <groupId>org.thymeleaf.extras</groupId>
+                <artifactId>thymeleaf-extras-springsecurity5</artifactId>
+                <version>${thymeleaf-extras-springsecurity5.verison}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.verison}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec.verison}</version>
+            </dependency>
+            <!--jwt所需jar包 start-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-api</artifactId>
+                <version>${jsonwebtoken.verison}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-impl</artifactId>
+                <version>${jsonwebtoken.verison}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt-jackson</artifactId>
+                <version>${jsonwebtoken.verison}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!--jwt所需jar包 end-->
+
+            <!--处理日期工具包-->
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>${joda-time.verison}</version>
+            </dependency>
+            <!-- redis依赖commons-pool 这个依赖一定要添加 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons-pool2.verison}</version>
+            </dependency>
+            <!-- ueditor 依赖库 start -->
+            <dependency>
+                <groupId>org.json</groupId>
+                <artifactId>json</artifactId>
+                <version>${json.verison}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-fileupload</groupId>
+                <artifactId>commons-fileupload</artifactId>
+                <version>${commons-fileupload.verison}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>${commons-codec.verison}</version>
+            </dependency>
+            <!-- ueditor 依赖库 end -->
+            <!--整合swagger2 访问：http://192.168.0.135:8081/swagger-ui.html-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox-swagger2.verison}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.swagger</groupId>
+                        <artifactId>swagger-models</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-models</artifactId>
+                <version>${swagger-models.verison}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>swagger-bootstrap-ui</artifactId>
+                <version>${swagger-bootstrap-ui.verison}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

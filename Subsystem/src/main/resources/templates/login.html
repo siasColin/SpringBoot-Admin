@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<title>Signin Template for Bootstrap</title>
+		<!-- Bootstrap core CSS -->
+		<link href="asserts/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="asserts/css/signin.css" th:href="@{/assets/css/signin.css}" rel="stylesheet">
+
+		<link rel="bookmark" th:href="@{/favicon.ico}" type="image/x-icon"/>
+	</head>
+	<body class="text-center">
+	<form class="form-signin" action="index.html" th:action="@{/login}" method="post">
+		<img class="mb-4" th:src="@{/image/bootstrap-solid.svg}" src="asserts/img/bootstrap-solid.svg" alt="" width="72" height="72">
+		<h1 class="h3 mb-3 font-weight-normal" th:text="#{login.tip}">Please sign in</h1>
+		<!--判断-->
+		<p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+		<label class="sr-only" th:text="#{login.username}">Username</label>
+		<input type="text"  name="username" class="form-control" placeholder="Username" th:placeholder="#{login.username}" required="" autofocus="">
+		<label class="sr-only" th:text="#{login.password}">Password</label>
+		<input type="password" name="password" class="form-control" placeholder="Password" th:placeholder="#{login.password}" required="">
+		<div class="checkbox mb-3">
+			<label>
+				<!--AbstractRememberMeServices
+					private String parameter = "remember-me";
+
+					String paramValue = request.getParameter(parameter);
+					if (paramValue != null && (paramValue.equalsIgnoreCase("true") || paramValue.equalsIgnoreCase("on") || paramValue.equalsIgnoreCase("yes") || paramValue.equals("1"))) {
+					 return true;
+					}
+					根据源码，我们可以看出来要想记住我功能生效，name值必须为“remember-me”，并且值要满足上边if条件判断，这里我们不懈value值默认为“on”也是可以的。
+            	-->
+                <input name="remember-me" type="checkbox" class="form-check-input" id="remember"> [[#{login.remember}]]
+			</label>
+		</div>
+		<button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{login.btn}">Sign in</button>
+		<p class="mt-5 mb-3 text-muted">© 2019-2020</p>
+		<a class="btn btn-sm" th:href="@{/(l='zh_CN')}">中文</a>
+		<a class="btn btn-sm" th:href="@{/(l='en_US')}">English</a>
+	</form>
+	<script>
+        if(this.parent!=this) this.parent.window.location.href=window.location.href;
+	</script>
+	</body>
+
+</html>

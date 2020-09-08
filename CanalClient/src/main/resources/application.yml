@@ -1,0 +1,43 @@
+server:
+  port: 8000
+#  servlet:
+#    session:
+#      timeout: 60m
+#    context-path: /CanalClient
+spring:
+  profiles:
+    active: dev
+  #时间戳统一转换
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+mybatis:
+  # 指定全局配置文件位置
+  config-location: classpath:mybatis-config.xml
+  # 指定sql映射文件位置
+  mapper-locations: classpath:mapping/*/*.xml
+logging:
+  file:
+    # 指定日志生成位置
+    path: ../logs/Portal
+  level:
+    root: info
+#指定异步任务线程池配置信息
+executor:
+  pool:
+    core:
+      size: 10
+    max:
+      size: 200
+  queue:
+    capacity: 2000
+
+# canal相关配置
+canal:
+  address: 127.0.0.1
+  port: 11111
+  destination: local6001
+#  filter: 'management\..*'
+  filter: 'portal.sys_area,portal.sys_modulelist,portal.sys_operatetype,
+  portal.sys_org,portal.sys_role,portal.sys_user,
+  portal.sys_role_operatetype,portal.sys_role_modulelist,portal.sys_user_role'

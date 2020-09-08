@@ -1,0 +1,88 @@
+{
+  "returnCode":"0",
+  "returnMessage":"操作成功",
+  "total":0,
+  "data":{
+    "allSecondMenu": [
+      {
+        "id": "1603",
+        "pid": "1",
+        "moduleName": "地区管理",
+        "moduleCode": "AREAMANAGE",
+        "moduleType": "",
+        "moduleTarget": "navTab",
+        "moduleIcon": "icon-reorder",
+        "moduleUrl": ""
+      },{
+        "id": "1604",
+        "pid": "1",
+        "moduleName": "机构管理",
+        "moduleCode": "ORGMANAGE",
+        "moduleType": "",
+        "moduleTarget": "navTab",
+        "moduleIcon": "icon-reorder",
+        "moduleUrl": "orgManage/orglist"
+      },{
+        "id": "1605",
+        "pid": "1",
+        "moduleName": "菜单管理",
+        "moduleCode": "MENUMANAGE",
+        "moduleType": "",
+        "moduleTarget": "navTab",
+        "moduleIcon": "icon-reorder",
+        "moduleUrl": "menuManage/menulist"
+      },{
+        "id": "1606",
+        "pid": "1",
+        "moduleName": "角色管理",
+        "moduleCode": "ROLEMANAGE",
+        "moduleType": "",
+        "moduleTarget": "navTab",
+        "moduleIcon": "icon-reorder",
+        "moduleUrl": ""
+      },{
+        "id": "1607",
+        "pid": "1",
+        "moduleName": "用户管理",
+        "moduleCode": "USERMANAGE",
+        "moduleType": "",
+        "moduleTarget": "navTab",
+        "moduleIcon": "icon-reorder",
+        "moduleUrl": "userManage/userManageList"
+      }
+    ],
+    "secondMenu_1603": [
+      {
+        "id": "16030",
+        "pid": "1603",
+        "moduleName": "地区管理",
+        "moduleCode": "AREAMANAGE",
+        "moduleType": "",
+        "moduleTarget": "navTab",
+        "moduleIcon": "icon-reorder",
+        "moduleUrl": "areaManage/arealist"
+      }
+    ],
+    "secondMenu_1606": [
+      {
+        "id": "16060",
+        "pid": "1606",
+        "moduleName": "角色管理",
+        "moduleCode": "ROLEMANAGE",
+        "moduleType": "",
+        "moduleTarget": "navTab",
+        "moduleIcon": "icon-reorder",
+        "moduleUrl": "roleManage/roleManageList"
+      },      {
+        "id": "16061",
+        "pid": "1606",
+        "moduleName": "角色菜单授权",
+        "moduleCode": "ROLEANDMENU",
+        "moduleType": "",
+        "moduleTarget": "navTab",
+        "moduleIcon": "icon-reorder",
+        "moduleUrl": "roleManage/roleAndMenu"
+      }
+    ]
+  }
+}

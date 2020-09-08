@@ -1,0 +1,419 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="_csrf" th:content="${_csrf !=null} ? ${_csrf.token} : ''"/>
+		<meta name="_csrf_header"  th:content="${_csrf !=null} ? ${_csrf.headerName} : ''"/>
+		<title>权限管理</title>
+				<!-- basic styles -->
+		<link rel="stylesheet" th:href="@{/plugin/layui/css/layui.css}" media="all">
+		<link th:href="@{/bootstrap/css/bootstrap.css}" href="../static/bootstrap/css/bootstrap.css" rel="stylesheet" />
+		<link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}" href="../static/assets/css/font-awesome.min.css" />
+		<link rel="stylesheet" th:href="@{/assets/css/ace.min.css}" href="../static/assets/css/ace.min.css" />
+		<link rel="stylesheet" type="text/css" th:href="@{/css/index.css}" href="../static/css/index.css"/>
+        <link rel="bookmark" th:href="@{/favicon.ico}" type="image/x-icon"/>
+	</head>
+	<body>
+		<form th:action="@{/logout}" method="post" id="logout">
+		</form>
+		<div class="navbar navbar-default" id="navbar">
+			<div class="navbar-container" id="navbar-container">
+				<div class="contentBigBox">
+					<div id="headerNav">
+						<!--<h1>
+							<img src="../static/image/logo.png" th:src="@{/image/logo.png}"/>
+						</h1>-->
+                        <h1>
+                            <img th:src="@{/image/logo.png}" src="logo.png" style="width: 40px;margin-top: 0px;">
+                            <!--<span style="display: inline-block;vertical-align: middle;font-size: 26px;font-family: '时尚中黑简体';line-height: 58px;color: white;">基于springboot+springsecurity的权限管理系统</span>-->
+							<span style="display: inline-block;vertical-align: middle;font-size: 26px;font-family: '时尚中黑简体';line-height: 58px;color: white;">浙江省定时任务管理系统</span>
+                        </h1>
+						<ul id="nav">
+							<li onclick="showSecondMenu(this.getAttribute('data-id'),this.getAttribute('data-url'),this.getAttribute('data-target'))" th:data-id="${fMenu.id}" th:data-url="${fMenu.moduleUrl}" th:data-target="${fMenu.moduleTarget}" th:each="fMenu:${firstMenu}">
+								<i th:class="${fMenu.moduleIcon}" class="icon-cog"></i>
+								<p th:text="${fMenu.moduleName}"></p>
+							</li>
+							<!--<li onclick="showSecondMenu('301951999484624896','','navTab')">
+								<i class="icon-cog"></i>
+								<p>系统管理</p>
+							</li>-->
+						</ul>
+						<div class="navTime">
+							<ul>
+								<!--<li class="time">
+									<p id="testt">2018年8月15日</p>
+									<p>星期三</p>
+								</li>-->
+								<li>
+									<!--<img id="headImg" th:src="@{/{headImg}(headImg=${#authentication.principal.headImg})}" src="image/boy-01.png" style="border-radius: 50%;width: 50px;height: 50px;margin-top: 3px;cursor: pointer;">-->
+									<img id="headImg" th:src="${#authentication.principal.headImg}" src="image/boy-01.png" style="border-radius: 50%;width: 50px;height: 50px;margin-top: 3px;cursor: pointer;">
+								</li>
+								<li class="userName">
+									<!--<span>艾美儿，欢迎你！</span>-->
+									<span class="span"><span sec:authentication="name"></span>,欢迎你！</span>
+								</li>
+								<li class="exit" onclick="logout();">
+									<i class=" icon-signout"></i>
+								</li>
+								<li class="list" id="moreMenu">
+									<i class="icon-th-list"></i>
+								</li>
+							</ul>
+							<div id="userBox">
+								<div class="userHeader">
+									<i class="icon-user"></i>
+									<!--<span>艾美儿，欢迎你！</span>-->
+									<span sec:authentication="name"></span><span>,欢迎你！</span>
+								</div>
+								<div class="userList row">
+									<div class="col-sm-3 leftList">
+										<span class="headerTitle">最近常用</span>
+										<div>
+											<i class=" icon-lightbulb"></i>
+											<span>我的首页</span>
+										</div>
+										<div>
+											<i class=" icon-lightbulb"></i>
+											<span>发布审批</span>
+										</div>
+										<div>
+											<i class=" icon-lightbulb"></i>
+											<span>裕兴监控</span>
+										</div>
+									</div>
+									<div class="col-sm-9 rightList">
+										<ul id="rightList">
+											<li class="col-sm-6"  onmouseleave="funBoxLeve($(this))">
+												<div class="item btn-primary">
+													<i class=" icon-calendar"></i>
+													<p>发布审批</p>
+												</div>
+												<div class="setings">
+													<i class="icon-cog"></i>
+													<ul onmouseleave="funLeve($(this))">
+														<li onclick="smallBox($(this))">小型</li>
+														<li onclick="bigBox($(this))">大型</li>
+														<li class="colorItem">
+															<i class="icon-angle-left"></i>&nbsp;颜色
+															<div>
+																<div class="btn-primary" onclick="setingColor($(this))"></div>
+																<div class="btn-success"  onclick="setingColor($(this))"></div>
+																<div class="btn-info"  onclick="setingColor($(this))"></div>
+																<div class="btn-warning"  onclick="setingColor($(this))"></div>
+																<div class="btn-danger"  onclick="setingColor($(this))"></div>
+															</div>
+														</li>
+														<li onclick="removeThisBox($(this))" data-toggle="modal" data-target="#myModalremoveMenu">移除</li>
+													</ul>
+												</div>
+											</li>
+											<li class="col-sm-3" onmouseleave="funBoxLeve($(this))">
+												<div class="item btn-success">
+													<i class=" icon-qrcode"></i>
+													<p>裕兴监控</p>
+												</div>
+												<div class="setings">
+													<i class="icon-cog"></i>
+													<ul onmouseleave="funLeve($(this))">
+														<li onclick="smallBox($(this))">小型</li>
+														<li onclick="bigBox($(this))">大型</li>
+														<li class="colorItem">
+															<i class="icon-angle-left"></i>&nbsp;颜色
+															<div>
+																<div class="btn-primary" onclick="setingColor($(this))"></div>
+																<div class="btn-success"  onclick="setingColor($(this))"></div>
+																<div class="btn-info"  onclick="setingColor($(this))"></div>
+																<div class="btn-warning"  onclick="setingColor($(this))"></div>
+																<div class="btn-danger"  onclick="setingColor($(this))"></div>
+															</div>
+														</li>
+														<li onclick="removeThisBox($(this))" data-toggle="modal" data-target="#myModalremoveMenu">移除</li>
+													</ul>
+												</div>
+											</li>
+											<li class="col-sm-3" onmouseleave="funBoxLeve($(this))">
+												<div class="item btn-info">
+													<i class="icon-calendar"></i>
+													<p>发布审批</p>
+												</div>
+												<div class="setings">
+													<i class="icon-cog"></i>
+													<ul onmouseleave="funLeve($(this))">
+														<li onclick="smallBox($(this))">小型</li>
+														<li onclick="bigBox($(this))">大型</li>
+														<li class="colorItem">
+															<i class="icon-angle-left"></i>&nbsp;颜色
+															<div>
+																<div class="btn-primary" onclick="setingColor($(this))"></div>
+																<div class="btn-success"  onclick="setingColor($(this))"></div>
+																<div class="btn-info"  onclick="setingColor($(this))"></div>
+																<div class="btn-warning"  onclick="setingColor($(this))"></div>
+																<div class="btn-danger"  onclick="setingColor($(this))"></div>
+															</div>
+														</li>
+														<li onclick="removeThisBox($(this))" data-toggle="modal" data-target="#myModalremoveMenu">移除</li>
+													</ul>
+												</div>
+											</li>
+											<li class="col-sm-3" onmouseleave="funBoxLeve($(this))">
+												<div class="item btn-warning">
+													<i class=" icon-lightbulb"></i>
+													<p>我的首页</p>
+												</div>
+												<div class="setings">
+													<i class="icon-cog"></i>
+													<ul onmouseleave="funLeve($(this))">
+														<li onclick="smallBox($(this))">小型</li>
+														<li onclick="bigBox($(this))">大型</li>
+														<li class="colorItem">
+															<i class="icon-angle-left"></i>&nbsp;颜色
+															<div>
+																<div class="btn-primary" onclick="setingColor($(this))"></div>
+																<div class="btn-success"  onclick="setingColor($(this))"></div>
+																<div class="btn-info"  onclick="setingColor($(this))"></div>
+																<div class="btn-warning"  onclick="setingColor($(this))"></div>
+																<div class="btn-danger"  onclick="setingColor($(this))"></div>
+															</div>
+														</li>
+														<li onclick="removeThisBox($(this))" data-toggle="modal" data-target="#myModalremoveMenu">移除</li>
+													</ul>
+												</div>
+											</li>
+											<li class="col-sm-3" onmouseleave="funBoxLeve($(this))">
+												<div class="item btn-danger">
+													<i class=" icon-desktop"></i>
+													<p>发布审批</p>
+												</div>
+												<div class="setings">
+													<i class="icon-cog"></i>
+													<ul onmouseleave="funLeve($(this))">
+														<li onclick="smallBox($(this))">小型</li>
+														<li onclick="bigBox($(this))">大型</li>
+														<li class="colorItem">
+															<i class="icon-angle-left"></i>&nbsp;颜色
+															<div>
+																<div class="btn-primary" onclick="setingColor($(this))"></div>
+																<div class="btn-success"  onclick="setingColor($(this))"></div>
+																<div class="btn-info"  onclick="setingColor($(this))"></div>
+																<div class="btn-warning"  onclick="setingColor($(this))"></div>
+																<div class="btn-danger"  onclick="setingColor($(this))"></div>
+															</div>
+														</li>
+														<li onclick="removeThisBox($(this))" data-toggle="modal" data-target="#myModalremoveMenu">移除</li>
+													</ul>
+												</div>
+											</li>
+											<div class="col-sm-3 addItem">
+												<div class="item"  data-toggle="modal" data-target="#myModalMenu">
+													<i class="icon-plus"></i>
+													<p>添加</p>
+												</div>
+											</div>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!-- /.container -->
+		</div>
+
+		<div class="main-container" id="main-container">
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="javascript:;">
+					<span class="menu-text"></span>
+				</a>
+				<div class="sidebar menu-hide" id="sidebar" style="display: none">
+					<ul class="nav nav-list" id="secondmenu">
+
+					</ul><!-- /.nav-list -->
+
+					<div class="sidebar-collapse" id="sidebar-collapse">
+						<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+					</div>
+				</div>
+
+				<div class="main-content">
+					<div class="page-content" style="padding:0;" id="iframeBox">
+						<iframe id="rightframe" name="rightframe" src="" frameborder="0" style="width:100%;height:100%;"></iframe>
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+
+			</div><!-- /.main-container-inner -->
+		</div><!-- /.main-container -->
+		
+		
+		<!--系统菜单-->
+		<div class="modal fade" id="myModalremoveMenu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="width: 300px;margin-top: 15%;">
+				<div class="modal-content">
+					<div class="modal-body">
+						<h4 class="text-danger">确定移除（<span id="menuName"></span>）菜单么？</h4>
+					</div>
+					<div class="modal-footer center">
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+						<button type="button" class="btn btn-primary btn-sm" id="removeThisMeun" data-dismiss="modal">移除</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModalMenu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="width: 300px;margin-top: 15%;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="font-size: 25px;">
+							&times;
+						</button>
+						<h4 class="modal-title">
+							添加常用菜单
+						</h4>
+					</div>
+					<div class="modal-body">
+						<div class="center">
+							<button type="button" class="btn btn-primary btn-sm" style="margin: 0 5px;" data-dismiss="modal" data-toggle="modal" data-target="#myModalSystemMenu">系统菜单</button>
+							<button type="button" class="btn btn-primary btn-sm" style="margin: 0 5px;" data-dismiss="modal" data-toggle="modal" data-target="#myModalCustomMenu">自定义菜单</button>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭
+						</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		
+		<!--系统菜单-->
+		<div class="modal fade" id="myModalSystemMenu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="width: 65%;margin-top: 10%;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="font-size: 25px;">
+							&times;
+						</button>
+						<h4 class="modal-title">
+							系统菜单
+						</h4>
+					</div>
+					<div class="modal-body">
+						系统菜单
+					</div>
+					<div class="modal-footer center">
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary btn-sm">添加</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		
+		<!--自定义菜单-->
+		<div class="modal fade" id="myModalCustomMenu" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog" style="width: 400px;margin-top: 10%;">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="font-size: 25px;">
+							&times;
+						</button>
+						<h4 class="modal-title">
+							请输入自定义菜单标题及网址
+						</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label for="uname" class="col-sm-3 control-label">标题</label>
+                                <div class="col-sm-8">
+                                    <input type="text"  class="form-control well" placeholder="请输入网址"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="upwd" class="col-sm-3 control-label">网址</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control well" placeholder="请输入网址"/>
+                                </div>
+                            </div>
+                        </form>
+					</div>
+					<div class="modal-footer center">
+						<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">取消</button>
+						<button type="button" class="btn btn-primary btn-sm">添加</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		<script th:src="@{/js/jquery-2.1.4.min.js}" src="../static/js/jquery-2.1.4.min.js"></script>
+		<script th:src="@{/bootstrap/js/bootstrap.min.js}" src="../static/bootstrap/js/bootstrap.min.js"></script>
+		<script th:src="@{/assets/js/ace.min.js}" src="../static/assets/js/ace.min.js"></script>
+		<script th:src="@{/assets/js/ace-extra.min.js}" src="../static/assets/js/ace-extra.min.js"></script>
+		<script th:src="@{/js/Sortable.min.js}" src="../static/js/Sortable.min.js" type="text/javascript" charset="utf-8"></script>
+		<script th:src="@{/plugin/layui/layui.js}"></script>
+		<script th:src="@{/js/common/common.js}"></script>
+		<script th:src="@{/js/index.js}"></script>
+		<script type="text/javascript">
+			$('#iframeBox').css('height',$(window).height()-55);   // iframe高度
+			
+			$(window).resize(function () {
+                $('#iframeBox').css('height',$(window).height()-55);   // iframe高度
+            });
+			
+			$("#nav li").on('click',function(){
+				$(this).addClass('navActive').siblings().removeClass('navActive');  // 头部导航切换效果
+			});
+            $("#nav li").first().click();
+			var bar = document.getElementById("rightList");
+			Sortable.create(bar, {group: 'shared',onEnd:function(){
+					//  拖拽排序回调函数
+			}});
+			
+			$(".setings i").on('click',function(){
+				$(this).next().fadeIn();
+			});
+			
+			function funLeve(ev){
+				ev.hide();
+			};
+			function funBoxLeve(ev){
+				ev.children('.setings').children('ul').hide();
+			};
+			
+			function setingColor(ev){          //调整颜色
+				ev.parents('.setings').prev().attr('class','');
+				ev.parents('.setings').prev().addClass('item');
+				ev.parents('.setings').prev('.item').addClass(ev.attr('class'));
+			};
+			
+			function smallBox(ev){             // 小型
+				ev.parents('.setings').parent().removeClass('col-md-6');
+				ev.parents('.setings').parent().addClass('col-md-3');
+			};
+			function bigBox(ev){              // 大型
+				ev.parents('.setings').parent().removeClass('col-md-3');
+				ev.parents('.setings').parent().addClass('col-md-6');
+			};
+			
+			
+			var elementHtml;
+			function removeThisBox(ev){  //删除
+				elementHtml = ev.parents('.setings').parent();
+				var menuName = ev.parents('.setings').prev().children('p').text();
+				$("#menuName").text(menuName);
+			};
+			$('#removeThisMeun').on('click',function(){
+				elementHtml.remove();
+			});
+			
+			
+			$('#moreMenu').on('click',function(){   // 右侧点击更多导航
+				$('#userBox').fadeToggle(200);
+			});
+			
+			function logout(){
+			    $("#logout").submit();
+			}
+		</script>
+</body>
+</html>
+

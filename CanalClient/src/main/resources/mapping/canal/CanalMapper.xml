@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.colin.mapper.canal.CanalMapper">
+  <resultMap id="BaseResultMap" type="cn.net.colin.model.sysManage.SysArea">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="area_code" jdbcType="VARCHAR" property="areaCode" />
+    <result column="area_level" jdbcType="INTEGER" property="areaLevel" />
+    <result column="parent_code" jdbcType="VARCHAR" property="parentCode" />
+    <result column="longitude" jdbcType="DECIMAL" property="longitude" />
+    <result column="latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="sort_num" jdbcType="INTEGER" property="sortNum" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, area_name, area_code, area_level, parent_code, longitude, latitude, create_user, 
+    create_time, sort_num
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_area sa
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+</mapper>

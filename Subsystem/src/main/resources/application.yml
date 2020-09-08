@@ -1,0 +1,86 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: Subsystem
+  profiles:
+    active: dev
+  thymeleaf:
+  # 禁用缓存
+    cache: false
+  messages:
+    # 指定国际化文件路径
+    basename: i18n.login,org.springframework.security.messages
+  #时间戳统一转换
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  servlet:
+    #文件上传相关设置
+    multipart:
+      # 是否支持批量上传   (默认值 true)
+      enabled: true
+      # 上传文件的临时目录 （linux的默认临时目录定时会被删除会导致上传失败，尽量指定临时目录）
+      location: D:/temp
+      # 上传文件最大为 1M （默认值 1M 根据自身业务自行控制即可）
+      max-file-size: 10MB
+      # 设置总上传的数据大小 10M（默认值10M 根据自身业务自行控制即可）
+      max-request-size: 100MB
+      # 文件大小阈值，当大于这个阈值时将写入到磁盘，否则存在内存中，（默认值0 一般情况下不用特意修改）
+      file-size-threshold: 0
+  resources:
+    static-locations: classpath:static/,file:static/
+  quartz:
+    properties:
+      org:
+        quartz:
+          threadPool:
+            # 实例化ThreadPool时，使用的线程类为SimpleThreadPool
+            class: org.quartz.simpl.SimpleThreadPool
+            # 并发个数  如果你只有几个工作每天触发几次 那么1个线程就可以,如果你有成千上万的工作，每分钟都有很多工作 那么久需要50-100之间.
+            # 只有1到100之间的数字是非常实用的
+            threadCount: 10
+            # 优先级 默认值为5
+            threadPriority: 5
+            #可以是“true”或“false”，默认为false
+            threadsInheritContextClassLoaderOfInitializingThread: true
+mybatis:
+  # 指定全局配置文件位置
+  config-location: classpath:mybatis-config.xml
+  # 指定sql映射文件位置
+  mapper-locations: classpath:mapping/*/*.xml
+#pagehelper分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+  # 动态数据源 autoRuntimeDialect:true，确保使用不同数据源时，会使用匹配的分页进行查询
+#  auto-runtime-dialect: true
+logging:
+  file:
+    # 指定日志生成位置
+    path: ../logs/Portal
+  level:
+    root: info
+    cn.net.colin.mapper.common.CommonMapper: debug
+    cn.net.colin.mapper.sync.SyncDataItemMapper: debug
+
+#自定义rsa加密文件生成地址
+rsa:
+  key:
+    pubKeyFile: H:\auth_key\id_key_rsa.pub
+    priKeyFile: H:\auth_key\id_key_rsa
+
+#指定异步任务线程池配置信息
+executor:
+  pool:
+    core:
+      size: 10
+    max:
+      size: 200
+  queue:
+    capacity: 2000
+
+# quartzWorkID quartz定时任务标识码，启动多个服务时用于区分一个任务属于哪个服务
+quartzWorkID: 1

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.net.colin.mapper.common.CommonMapper">
+  <select id="fromVerifyByCode" resultType="map" parameterType="map">
+
+    select id from ${tableName}
+    <where>
+      AND  ${code} = #{val}
+      <if test="id != null and id !=''">
+        AND id != #{id}
+      </if>
+    </where>
+
+  </select>
+
+  <insert id="insertBatchByParams" parameterType="java.util.Map">
+    <foreach collection="list" item="record" open="" separator=";" close="" >
+      insert into ${record.tableName} (${record.allKey})
+      values
+      <foreach collection="record.valueList" item="item" open="(" separator="," close=")" >
+        #{item}
+      </foreach>
+    </foreach>
+  </insert>
+  <update id="updateBatchByParams" parameterType="java.util.Map">
+    <foreach collection="list" item="record" open="" separator=";" close="" >
+      update ${record.tableName}
+      <set>
+        <foreach collection="record.fields.keys" index="index" item="key" separator=",">
+          ${key} = #{record.fields.${key}}
+        </foreach>
+      </set>
+      <where>
+        <foreach collection="record.wheres.keys" index="index" item="key" separator=" and ">
+          ${key} = #{record.wheres.${key}}
+        </foreach>
+      </where>
+    </foreach>
+  </update>
+  <delete id="deleteBatchByParams" parameterType="java.util.Map">
+    <foreach collection="list" item="record" open="" separator=";" close="" >
+      delete from ${record.tableName}
+      <where>
+        <foreach collection="record.wheres.keys" index="index" item="key" separator=" and ">
+          ${key} = #{record.wheres.${key}}
+        </foreach>
+      </where>
+    </foreach>
+  </delete>
+</mapper>

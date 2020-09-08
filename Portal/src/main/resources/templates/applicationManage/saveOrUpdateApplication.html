@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="_csrf" th:content="${_csrf !=null} ? ${_csrf.token} : ''"/>
+    <meta name="_csrf_header"  th:content="${_csrf !=null} ? ${_csrf.headerName} : ''"/>
+    <title>用户管理</title>
+    <link rel="stylesheet" th:href="@{/plugin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/plugin/zTree_v3/css/zTreeStyle/zTreeStyle.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/common/dasui.css}">
+    <style>
+        body{margin: 10px;}
+        .span-red{
+            margin: 5px;
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <form id="form1" class="layui-form" check="sys_application" style="margin-top: 4%">
+        <input id="id" name="id" type="hidden" th:if="${sysApplication!=null}" th:value="${sysApplication.id}"/>
+        <div class="layui-form-item" hidden>
+            <div class="layui-input-block">
+                <button id="permissionSubmit" class="layui-btn" lay-submit lay-filter="save">
+                    保存
+                </button>
+            </div>
+        </div>
+        <!-- 第一行 -->
+        <div class="layui-row">
+            <div class="layui-col-xs12">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="span-red">*</span>应用名称</label>
+                    <div class="layui-input-block">
+                        <input th:value="${sysApplication!=null}?${sysApplication.applicationNameZh}" type="text"
+                               id="applicationNameZh" name="applicationNameZh" lay-verify="required|dasLength"
+                               daslength="20" placeholder="请输入应用名称" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 第二行 -->
+        <div class="layui-row">
+            <div class="layui-col-xs12">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="span-red">*</span>应用编码</label>
+                    <div class="layui-input-block">
+                        <input th:readonly="${sysApplication!=null}"
+                               th:value="${sysApplication!=null}?${sysApplication.applicationName}"
+                               type="text" id="applicationName" name="applicationName" tableColumn="application_name"
+                               lay-verify="required|dasLength|repeatCheck" daslength="30" placeholder="请输入应用编码" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 第三行 -->
+        <div class="layui-row">
+            <div class="layui-col-xs12">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"><span class="span-red">*</span>应用URL</label>
+                    <div class="layui-input-block">
+                        <input th:value="${sysApplication!=null}?${sysApplication.applicationUrl}" type="text"
+                               id="applicationUrl" name="applicationUrl" lay-verify="required|dasLength"
+                               daslength="100" placeholder="请输入应用URL" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script th:src="@{/js/jquery-2.1.4.min.js}"></script>
+<script th:src="@{/plugin/layui/layui.js}"></script>
+<script th:src="@{/plugin/layui/xm-select.js}"></script>
+<script th:src="@{/js/common/layuiFromVerify.js}"></script>
+<script th:src="@{/plugin/zTree_v3/js/jquery.ztree.all.js}"></script>
+<script th:src="@{/js/common/common.js}"></script>
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+        form.render();
+    });
+</script>
+</body>
+</html>

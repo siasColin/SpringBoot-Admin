@@ -65,7 +65,9 @@ var Common = {
                     }
                 },
     			success:function(rsp){
-                    window.parent.Common.closeload();
+                    setTimeout(function(){
+                        window.parent.Common.closeload();
+                    }, 200);
     				if(rsp.returnCode == '0'){
                         //成功
                         if(next!=null){
@@ -93,7 +95,9 @@ var Common = {
     				}
     			},
     			error:function(rsp){
-                    window.parent.Common.closeload();
+                    setTimeout(function(){
+                        window.parent.Common.closeload();
+                    }, 200);
     				Common.error("服务器连接失败！");
     			}
     		})

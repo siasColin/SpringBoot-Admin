@@ -170,7 +170,7 @@ public class SysRoleServiceImpl implements ISysRoleService {
         //2.删除角色权限关联关系
         this.sysRoleMapper.deleteRoleAndPermissions(ids);
         //3.删除角色菜单关联关系
-        this.sysRoleMapper.deleteRoleModulelistByRoleIds(ids,applicationName);
+        this.sysRoleMapper.deleteRoleModulelistByRoleIds(ids);
         //4.删除角色用户关联关系
         this.sysRoleMapper.deleteRoleAndUserByRoleIds(ids);
         return num;
@@ -242,8 +242,10 @@ public class SysRoleServiceImpl implements ISysRoleService {
         if(checkedRole != null && !checkedRole.trim().equals("")){
             //先删除选定角色和菜单的关联关系
             Long [] roleArr = {Long.parseLong(checkedRole)};
+
             //子系统只删除本系统关联的菜单
-            this.sysRoleMapper.deleteRoleModulelistByRoleIds(roleArr,applicationName);
+//            this.sysRoleMapper.deleteRoleModulelistByRoleIds(roleArr);
+            this.sysRoleMapper.deleteRoleModulelistByRoleIdsAndApplicationName(roleArr,applicationName);
             if(checkedMenus != null && !checkedMenus.trim().equals("")){
                 String [] checkedMenuArr = checkedMenus.split(",");
                 //关联菜单不为空，保存

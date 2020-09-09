@@ -1,5 +1,7 @@
 package cn.net.colin.service.sysManage.impl;
 
+import cn.net.colin.common.aop.DataSourceAnnotation;
+import cn.net.colin.common.util.DynamicDataSourceSwitcher;
 import cn.net.colin.common.util.SpringSecurityUtil;
 import cn.net.colin.mapper.sysManage.SysModullistMapper;
 import cn.net.colin.mapper.sysManage.SysRoleMapper;
@@ -46,34 +48,42 @@ public class SysModullistServiceImpl implements ISysModullistService {
         return deleteNum;
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateByPrimaryKeySelective(SysModulelist record) {
         return this.sysModullistMapper.updateByPrimaryKeySelective(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateByPrimaryKey(SysModulelist record) {
         return this.sysModullistMapper.updateByPrimaryKey(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insert(SysModulelist record) {
         return this.sysModullistMapper.insert(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insertSelective(SysModulelist record) {
         return this.sysModullistMapper.insertSelective(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insertBatch(List<SysModulelist> modulelists) {
         return this.sysModullistMapper.insertBatch(modulelists);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insertBatchSelective(List<SysModulelist> modulelists) {
         return this.sysModullistMapper.insertBatchSelective(modulelists);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateBatchByPrimaryKey(List<SysModulelist> modulelists) {
         return this.sysModullistMapper.updateBatchByPrimaryKey(modulelists);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateBatchByPrimaryKeySelective(List<SysModulelist> modulelists) {
         return this.sysModullistMapper.updateBatchByPrimaryKeySelective(modulelists);
     }

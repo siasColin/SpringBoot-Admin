@@ -4,6 +4,7 @@ import cn.net.colin.common.Constants;
 import cn.net.colin.common.exception.entity.ResultCode;
 import cn.net.colin.common.exception.entity.ResultInfo;
 import cn.net.colin.common.helper.RedisLock;
+import cn.net.colin.common.util.DynamicDataSourceSwitcher;
 import cn.net.colin.common.util.SnowflakeIdWorker;
 import cn.net.colin.common.util.SpringSecurityUtil;
 import cn.net.colin.model.common.TreeNode;
@@ -155,20 +156,23 @@ public class RoleManageController {
         }
         if (lock) {
             try {
+                DynamicDataSourceSwitcher.setDataSource(DynamicDataSourceSwitcher.portal);
                 int num = sysRoleService.saveRoleAndPermissions(sysRole,systemPermissions);
                 if(num > 0){
                     resultInfo = ResultInfo.ofData(ResultCode.SUCCESS,sysRole);
                 }else{
                     resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 }
+                //由于数据是直接保存到门户，再由门户分发到各子系统，这里休眠1s，等待数据同步到本系统，避免直接返回页面没有变化。（当然也可以提示用户稍后刷新查看）
+                Thread.sleep(1000);
             }catch (Exception e){
                 resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 e.printStackTrace();
             }finally {
+                DynamicDataSourceSwitcher.cleanDataSource();
                 redisLock.unlock(Constants.ROLEPERMISSION_LOCK);
             }
         }
-
         return resultInfo;
     }
 
@@ -225,16 +229,20 @@ public class RoleManageController {
         }
         if (lock) {
             try {
+                DynamicDataSourceSwitcher.setDataSource(DynamicDataSourceSwitcher.portal);
                 int num = sysRoleService.updateRoleAndPermissions(sysRole,systemPermissions);
                 if(num > 0){
                     resultInfo = ResultInfo.ofData(ResultCode.SUCCESS,sysRole);
                 }else{
                     resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 }
+                //由于数据是直接保存到门户，再由门户分发到各子系统，这里休眠1s，等待数据同步到本系统，避免直接返回页面没有变化。（当然也可以提示用户稍后刷新查看）
+                Thread.sleep(1000);
             }catch (Exception e){
                 resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 e.printStackTrace();
             }finally {
+                DynamicDataSourceSwitcher.cleanDataSource();
                 redisLock.unlock(Constants.ROLEPERMISSION_LOCK);
             }
         }
@@ -269,16 +277,20 @@ public class RoleManageController {
         }
         if (lock) {
             try {
+                DynamicDataSourceSwitcher.setDataSource(DynamicDataSourceSwitcher.portal);
                 int num = sysRoleService.deleteBatchByPrimaryKey(ids);
                 if(num > 0){
                     resultInfo = ResultInfo.of(ResultCode.SUCCESS);
                 }else{
                     resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 }
+                //由于数据是直接保存到门户，再由门户分发到各子系统，这里休眠1s，等待数据同步到本系统，避免直接返回页面没有变化。（当然也可以提示用户稍后刷新查看）
+                Thread.sleep(1000);
             }catch (Exception e){
                 resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 e.printStackTrace();
             }finally {
+                DynamicDataSourceSwitcher.cleanDataSource();
                 redisLock.unlock(Constants.ROLEPERMISSION_LOCK);
             }
         }
@@ -345,6 +357,7 @@ public class RoleManageController {
         }
         if (lock) {
             try {
+                DynamicDataSourceSwitcher.setDataSource(DynamicDataSourceSwitcher.portal);
                 int num = sysRoleService.saveRoleAndMenu(params);
                 if(num > 0){
                     resultInfo = ResultInfo.of(ResultCode.SUCCESS);
@@ -355,6 +368,7 @@ public class RoleManageController {
                 resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 e.printStackTrace();
             }finally {
+                DynamicDataSourceSwitcher.cleanDataSource();
                 redisLock.unlock(Constants.ROLEMENU_LOCK);
             }
         }
@@ -441,16 +455,20 @@ public class RoleManageController {
         }
         if (lock) {
             try{
+                DynamicDataSourceSwitcher.setDataSource(DynamicDataSourceSwitcher.portal);
                 int num = sysRoleService.saveRoleAndUsers(roleId,users);
                 if(num > 0){
                     resultInfo = ResultInfo.of(ResultCode.SUCCESS);
                 }else {
                     resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 }
+                //由于数据是直接保存到门户，再由门户分发到各子系统，这里休眠1s，等待数据同步到本系统，避免直接返回页面没有变化。（当然也可以提示用户稍后刷新查看）
+                Thread.sleep(1000);
             }catch (Exception e){
                 resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 e.printStackTrace();
             }finally {
+                DynamicDataSourceSwitcher.cleanDataSource();
                 redisLock.unlock(Constants.USERANDROLE_LOCK);
             }
         }
@@ -486,16 +504,20 @@ public class RoleManageController {
         }
         if (lock) {
             try{
+                DynamicDataSourceSwitcher.setDataSource(DynamicDataSourceSwitcher.portal);
                 int num = sysRoleService.deleteRoleAndUser(roleId,users);
                 if(num > 0){
                     resultInfo = ResultInfo.of(ResultCode.SUCCESS);
                 }else{
                     resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 }
+                //由于数据是直接保存到门户，再由门户分发到各子系统，这里休眠1s，等待数据同步到本系统，避免直接返回页面没有变化。（当然也可以提示用户稍后刷新查看）
+                Thread.sleep(1000);
             }catch (Exception e){
                 resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 e.printStackTrace();
             }finally {
+                DynamicDataSourceSwitcher.cleanDataSource();
                 redisLock.unlock(Constants.USERANDROLE_LOCK);
             }
         }

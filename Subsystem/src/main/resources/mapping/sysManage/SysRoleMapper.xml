@@ -127,7 +127,15 @@
         <foreach collection="array" open="(" separator="," close=")" item="id">
             #{id,jdbcType=BIGINT}
         </foreach>
-        and application_name = #{applicationName,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteRoleModulelistByRoleIdsAndApplicationName">
+        delete from sys_role_modulelist where role_id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id,jdbcType=BIGINT}
+        </foreach>
+        and modulelist_id in(
+          select id from sys_modulelist where application_name = #{applicationName,jdbcType=VARCHAR}
+        )
     </delete>
     <delete id="deleteRoleAndUserByRoleIds">
         delete from sys_user_role where role_id in

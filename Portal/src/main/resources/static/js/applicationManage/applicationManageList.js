@@ -72,25 +72,6 @@ $(function(){
                         }
                     });
                     break;
-                case 'delete':
-                    if(data.length === 0){
-                        Common.info("请至少选择一行");
-                    } else {
-                        var ids = "";
-                        for(var i=0;i<data.length;i++){
-                            if(i == data.length - 1){
-                                ids+=data[i].id
-                            }else{
-                                ids+=data[i].id+',';
-                            }
-                        }
-                        var params = {};
-                        params.ids = ids;
-                        Common.openConfirm("确定删除吗?",function () {
-                            Common.ajax('userManage/user',params,true,'DELETE',search);
-                        });
-                    }
-                    break;
             };
         });
 
@@ -100,10 +81,8 @@ $(function(){
                 ,layEvent = obj.event; //获得 lay-event 对应的值
             if(layEvent === 'detail'){
             } else if(layEvent === 'del'){
-                var params = {};
-                params.ids = data.id;
                 Common.openConfirm("确定删除吗?",function () {
-                    Common.ajax('userManage/user',params,true,'DELETE',search);
+                    Common.ajax('applicationManage/application/'+data.id,null,true,'DELETE',search);
                 })
             } else if(layEvent === 'edit'){
                 layer.open({

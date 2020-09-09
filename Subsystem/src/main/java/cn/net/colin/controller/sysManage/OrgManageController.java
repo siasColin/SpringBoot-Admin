@@ -4,6 +4,7 @@ import cn.net.colin.common.Constants;
 import cn.net.colin.common.exception.entity.ResultCode;
 import cn.net.colin.common.exception.entity.ResultInfo;
 import cn.net.colin.common.helper.RedisLock;
+import cn.net.colin.common.util.DynamicDataSourceSwitcher;
 import cn.net.colin.common.util.RequestUtil;
 import cn.net.colin.common.util.SnowflakeIdWorker;
 import cn.net.colin.common.util.SpringSecurityUtil;
@@ -321,6 +322,7 @@ public class OrgManageController {
         }
         if (lock) {
             try {
+                DynamicDataSourceSwitcher.setDataSource(DynamicDataSourceSwitcher.portal);
                 int num = sysOrgService.updatOrgWithFK(sysOrg,orgCode);
                 if(num > 0){
                     resultInfo = ResultInfo.ofData(ResultCode.SUCCESS,sysOrg);
@@ -344,6 +346,7 @@ public class OrgManageController {
                 e.printStackTrace();
                 resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
             }finally {
+                DynamicDataSourceSwitcher.cleanDataSource();
                 redisLock.unlock(Constants.ORG_LOCK);
             }
         }

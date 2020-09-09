@@ -4,6 +4,7 @@ import cn.net.colin.common.Constants;
 import cn.net.colin.common.exception.entity.ResultCode;
 import cn.net.colin.common.exception.entity.ResultInfo;
 import cn.net.colin.common.helper.RedisLock;
+import cn.net.colin.common.util.DynamicDataSourceSwitcher;
 import cn.net.colin.common.util.SnowflakeIdWorker;
 import cn.net.colin.common.util.SpringSecurityUtil;
 import cn.net.colin.model.common.TreeNode;
@@ -252,6 +253,7 @@ public class MenuManageController {
         }
         if (lock) {
             try {
+                DynamicDataSourceSwitcher.setDataSource(DynamicDataSourceSwitcher.portal);
                 int num = sysModullistService.deleteByPrimaryKey(id);
                 if(num > 0){
                     resultInfo = ResultInfo.of(ResultCode.SUCCESS);
@@ -262,6 +264,7 @@ public class MenuManageController {
                 e.printStackTrace();
                 resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
             }finally {
+                DynamicDataSourceSwitcher.cleanDataSource();
                 redisLock.unlock(Constants.ROLEMENU_LOCK);
             }
         }

@@ -99,6 +99,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/common/uploadMany",
                 "/ueditor/config",
                 "/sync/client",
+                "/sync/client1",
                 "/swagger-ui.html").and()
             .authorizeRequests()
             //允许访问的路径，但是依然会走spring security内部流程
@@ -109,6 +110,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     "/error",
                     "/common/sessionInvalid",
                     "/sync/client",
+                    "/sync/client1",
                     "/articleManage/articleView/*",
                     "/articleManage/comment/*").permitAll()
             //所有的请求需要认证即登陆后才能访问

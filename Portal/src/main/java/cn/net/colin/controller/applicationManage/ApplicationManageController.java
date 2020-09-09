@@ -12,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,6 +83,7 @@ public class ApplicationManageController {
      * @param sysApplication
      * @return
      */
+    @PreAuthorize("hasAnyAuthority('ADMIN_AUTH','INSERT_AUTH')")
     @PostMapping("/application")
     @ResponseBody
     public ResultInfo saveApplication(SysApplication sysApplication){
@@ -118,6 +120,7 @@ public class ApplicationManageController {
      * @param sysApplication
      * @return
      */
+    @PreAuthorize("hasAnyAuthority('ADMIN_AUTH','UPDATE_AUTH')")
     @PutMapping("/application")
     @ResponseBody
     public ResultInfo updateApplication(SysApplication sysApplication){
@@ -130,4 +133,20 @@ public class ApplicationManageController {
         }
         return  resultInfo;
     }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN_AUTH','DELETE_AUTH')")
+    @DeleteMapping("/application/{id}")
+    @ResponseBody
+    public ResultInfo deleteApplication(@PathVariable("id") String id){
+        ResultInfo resultInfo = ResultInfo.of(ResultCode.STATUS_CODE_450);
+        int num = applicationService.deleteByPrimaryKey(Long.parseLong(id));
+        if(num > 0){
+            resultInfo = ResultInfo.of(ResultCode.SUCCESS);
+        }else{
+            resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
+        }
+        return  resultInfo;
+    }
+
+
 }

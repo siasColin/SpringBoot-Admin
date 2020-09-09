@@ -4,6 +4,7 @@ import cn.net.colin.common.Constants;
 import cn.net.colin.common.exception.entity.ResultCode;
 import cn.net.colin.common.exception.entity.ResultInfo;
 import cn.net.colin.common.helper.RedisLock;
+import cn.net.colin.common.util.DynamicDataSourceSwitcher;
 import cn.net.colin.common.util.SnowflakeIdWorker;
 import cn.net.colin.common.util.SpringSecurityUtil;
 import cn.net.colin.model.common.TreeNode;
@@ -320,6 +321,7 @@ public class AreaManageController {
         }
         if (lock) {
             try {
+                DynamicDataSourceSwitcher.setDataSource(DynamicDataSourceSwitcher.portal);
                 int num = sysAreaService.updatAreaWithFK(sysArea,areaCode);
                 if(num > 0){
                     resultInfo = ResultInfo.ofData(ResultCode.SUCCESS,sysArea);
@@ -342,6 +344,7 @@ public class AreaManageController {
                 e.printStackTrace();
                 resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
             }finally {
+                DynamicDataSourceSwitcher.cleanDataSource();
                 redisLock.unlock(Constants.AREA_LOCK);
             }
         }

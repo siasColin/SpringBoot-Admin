@@ -38,6 +38,4 @@ canal:
   port: 11111
   destination: local6001
 #  filter: 'management\..*'
-  filter: 'portal.sys_area,portal.sys_modulelist,portal.sys_operatetype,
-  portal.sys_org,portal.sys_role,portal.sys_user,
-  portal.sys_role_operatetype,portal.sys_role_modulelist,portal.sys_user_role'
+  filter: 'portal.sys_area,portal.sys_modulelist,portal.sys_operatetype,portal.sys_org,portal.sys_role,portal.sys_user,portal.sys_role_operatetype,portal.sys_role_modulelist,portal.sys_user_role'

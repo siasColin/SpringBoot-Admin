@@ -161,7 +161,7 @@ public interface SysRoleMapper {
      * 删除角色和菜单关联关系
      * @param ids
      */
-    void deleteRoleModulelistByRoleIds(@Param("ids") Long[] ids,@Param("applicationName") String applicationName);
+    void deleteRoleModulelistByRoleIds(@Param("array") Long[] ids);
 
     /**
      * 删除角色和用户表关联关系
@@ -202,4 +202,11 @@ public interface SysRoleMapper {
      * @return
      */
     int deleteUserAndRoleByRoleIdAndUserIds(@Param("roleid") Long roleId, Long[] users);
+
+    /**
+     * 子系统删除角色和菜单关联关系
+     * @param roleArr
+     * @param applicationName
+     */
+    void deleteRoleModulelistByRoleIdsAndApplicationName(@Param("array") Long[] roleArr, @Param("applicationName") String applicationName);
 }

@@ -1,5 +1,7 @@
 package cn.net.colin.service.sysManage.impl;
 
+import cn.net.colin.common.aop.DataSourceAnnotation;
+import cn.net.colin.common.util.DynamicDataSourceSwitcher;
 import cn.net.colin.common.util.RecursiveChildUtil;
 import cn.net.colin.common.util.SQLUtil;
 import cn.net.colin.common.util.SpringSecurityUtil;
@@ -41,38 +43,47 @@ public class SysOrgServiceImpl implements ISysOrgService {
         return this.sysOrgMapper.selectByPrimaryKey(id);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int deleteByPrimaryKey(Long id) {
         return this.sysOrgMapper.deleteByPrimaryKey(id);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateByPrimaryKeySelective(SysOrg record) {
         return this.sysOrgMapper.updateByPrimaryKeySelective(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateByPrimaryKey(SysOrg record) {
         return this.sysOrgMapper.updateByPrimaryKey(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insert(SysOrg record) {
         return this.sysOrgMapper.insert(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insertSelective(SysOrg record) {
         return this.sysOrgMapper.insertSelective(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insertBatch(List<SysOrg> sysOrgList) {
         return this.sysOrgMapper.insertBatch(sysOrgList);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insertBatchSelective(List<SysOrg> sysOrgList) {
         return this.sysOrgMapper.insertBatchSelective(sysOrgList);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateBatchByPrimaryKey(List<SysOrg> sysOrgList) {
         return this.sysOrgMapper.updateBatchByPrimaryKey(sysOrgList);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateBatchByPrimaryKeySelective(List<SysOrg> sysOrgList) {
         return this.sysOrgMapper.updateBatchByPrimaryKeySelective(sysOrgList);
     }

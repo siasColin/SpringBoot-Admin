@@ -1,5 +1,7 @@
 package cn.net.colin.service.sysManage.impl;
 
+import cn.net.colin.common.aop.DataSourceAnnotation;
+import cn.net.colin.common.util.DynamicDataSourceSwitcher;
 import cn.net.colin.common.util.RecursiveChildUtil;
 import cn.net.colin.common.util.SpringSecurityUtil;
 import cn.net.colin.mapper.sysManage.SysAreaMapper;
@@ -35,22 +37,27 @@ public class SysAreaServiceImpl implements ISysAreaService {
         return this.sysAreaMapper.selectByPrimaryKey(id);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int deleteByPrimaryKey(Long id) {
         return this.sysAreaMapper.deleteByPrimaryKey(id);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateByPrimaryKeySelective(SysArea record) {
         return this.sysAreaMapper.updateByPrimaryKeySelective(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateByPrimaryKey(SysArea record) {
         return this.sysAreaMapper.updateByPrimaryKey(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insert(SysArea record) {
         return this.sysAreaMapper.insert(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insertSelective(SysArea record) {
         return this.sysAreaMapper.insertSelective(record);
     }
@@ -59,14 +66,17 @@ public class SysAreaServiceImpl implements ISysAreaService {
         return this.sysAreaMapper.insertBatch(areaList);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insertBatchSelective(List<SysArea> areaList) {
         return this.sysAreaMapper.insertBatchSelective(areaList);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateBatchByPrimaryKey(List<SysArea> areaList) {
         return this.sysAreaMapper.updateBatchByPrimaryKey(areaList);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateBatchByPrimaryKeySelective(List<SysArea> areaList) {
         return this.sysAreaMapper.updateBatchByPrimaryKeySelective(areaList);
     }

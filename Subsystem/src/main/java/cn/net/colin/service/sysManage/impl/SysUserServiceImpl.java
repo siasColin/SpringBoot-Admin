@@ -1,7 +1,9 @@
 package cn.net.colin.service.sysManage.impl;
 
+import cn.net.colin.common.aop.DataSourceAnnotation;
 import cn.net.colin.common.exception.BusinessRuntimeException;
 import cn.net.colin.common.exception.entity.ResultCode;
+import cn.net.colin.common.util.DynamicDataSourceSwitcher;
 import cn.net.colin.common.util.SQLUtil;
 import cn.net.colin.mapper.sysManage.*;
 import cn.net.colin.model.common.Role;
@@ -44,38 +46,47 @@ public class SysUserServiceImpl implements ISysUserService {
         return this.sysUserMapper.selectByPrimaryKey(id);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int deleteByPrimaryKey(Long id) {
         return this.sysUserMapper.deleteByPrimaryKey(id);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateByPrimaryKeySelective(SysUser record) {
         return this.sysUserMapper.updateByPrimaryKeySelective(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateByPrimaryKey(SysUser record) {
         return this.sysUserMapper.updateByPrimaryKey(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insert(SysUser record) {
         return this.sysUserMapper.insert(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insertSelective(SysUser record) {
         return this.sysUserMapper.insertSelective(record);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insertBatch(List<SysUser> sysUserList) {
         return this.sysUserMapper.insertBatch(sysUserList);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int insertBatchSelective(List<SysUser> sysUserList) {
         return this.sysUserMapper.insertBatchSelective(sysUserList);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateBatchByPrimaryKey(List<SysUser> sysUserList) {
         return this.sysUserMapper.updateBatchByPrimaryKey(sysUserList);
     }
 
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updateBatchByPrimaryKeySelective(List<SysUser> sysUserList) {
         return this.sysUserMapper.updateBatchByPrimaryKeySelective(sysUserList);
     }
@@ -211,6 +222,7 @@ public class SysUserServiceImpl implements ISysUserService {
     }
 
     @Override
+    @DataSourceAnnotation(DynamicDataSourceSwitcher.portal)
     public int updatePwdByUserIds(String password, String[] userIds) {
         int updateNum = this.sysUserMapper.updatePwdByUserIds(password,userIds);
         return updateNum;

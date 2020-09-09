@@ -4,6 +4,7 @@ import cn.net.colin.common.util.RecursiveChildUtil;
 import cn.net.colin.common.util.SQLUtil;
 import cn.net.colin.common.util.SpringSecurityUtil;
 import cn.net.colin.mapper.sysManage.SysAreaMapper;
+import cn.net.colin.mapper.sysManage.SysModullistMapper;
 import cn.net.colin.mapper.sysManage.SysRoleMapper;
 import cn.net.colin.model.common.TreeNode;
 import cn.net.colin.model.sysManage.SysArea;
@@ -14,6 +15,7 @@ import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,10 @@ public class SysRoleServiceImpl implements ISysRoleService {
     private SysRoleMapper sysRoleMapper;
     @Autowired
     private SysAreaMapper sysAreaMapper;
+    @Autowired
+    private SysModullistMapper sysModullistMapper;
+    @Value("${spring.application.name}")
+    private String applicationName;
 
     private static final Logger logger = LoggerFactory.getLogger(SysRoleServiceImpl.class);
 
@@ -256,7 +262,26 @@ public class SysRoleServiceImpl implements ISysRoleService {
 
     @Override
     public List<String> selectMenuIdsByRoleId(Long roleId) {
-        return this.sysRoleMapper.selectMenuIdsByRoleId(roleId);
+        List<String> resultList = new ArrayList<String>();
+        List<String> allList = this.sysRoleMapper.selectMenuIdsByRoleId(roleId);
+        //判断如果是门户系统，则返回所有menuid；如果是子系统则只返回子系统的menuid
+        if(applicationName.equals("Portal")){//门户
+            resultList = allList;
+        }else{
+            Map<String,Object> paramMap = new HashMap<String,Object>();
+            paramMap.put("applicationName",applicationName);
+            List<TreeNode> treeNodeList = this.sysModullistMapper.selectMenuTreeNodes(paramMap);
+            Map<String,String> filterMap = new HashMap<String,String>();
+            for (TreeNode node :treeNodeList) {
+                filterMap.put(node.getId(),"");
+            }
+            for (String menuid : allList) {
+                if(filterMap.get(menuid) != null){
+                    resultList.add(menuid);
+                }
+            }
+        }
+        return resultList;
     }
 
     @Override

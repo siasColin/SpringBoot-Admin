@@ -108,5 +108,13 @@ public interface SysModullistMapper {
      * @param moduleCode
      * @return
      */
-    SysModulelist selectByModuleCode(@Param("moduleCode") String moduleCode);
+    SysModulelist selectByModuleCode(@Param("moduleCode") String moduleCode,@Param("applicationName") String applicationName);
+
+    /**
+     * 查询门户系统的共享菜单
+     * @param applicationName
+     * @param moduleAttr
+     * @return
+     */
+    List<SysModulelist> selectByApplicationNameAndAttr(@Param("applicationName") String applicationName, @Param("moduleAttr") int moduleAttr);
 }

@@ -102,4 +102,11 @@ public interface SysOperatetypeMapper {
      * @return
      */
     List<Long> selectOperatetypeidListByRoleid(Map<String, Object> paramMap);
+
+    /**
+     * 根据权限编码查询对应的角色id集合
+     * @param operateCode
+     * @return
+     */
+    List<Long> selectRoleIdsByOperateCode(@Param("operateCode") String operateCode);
 }

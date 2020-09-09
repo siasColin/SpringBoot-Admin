@@ -41,6 +41,14 @@
   <select id="selectOperatetypeidListByRoleid" resultType="java.lang.Long">
     select operateType_id from sys_role_operatetype where role_id = #{roleid,jdbcType=BIGINT}
   </select>
+  <select id="selectRoleIdsByOperateCode" resultType="java.lang.Long">
+      SELECT
+          role_id
+      FROM
+          sys_role_operatetype
+      WHERE
+          operateType_id IN ( SELECT id FROM sys_operatetype WHERE operate_code = #{operateCode,jdbcType=VARCHAR} )
+  </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from sys_operatetype

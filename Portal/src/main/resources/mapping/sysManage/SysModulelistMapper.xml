@@ -74,7 +74,13 @@
         select
         <include refid="Base_Column_List"/>
         from sys_modulelist
-        where module_code = #{moduleCode,jdbcType=VARCHAR} and application_name = #{moduleCode,jdbcType=VARCHAR}
+        where module_code = #{moduleCode,jdbcType=VARCHAR} and application_name = #{applicationName,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByApplicationNameAndAttr" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_modulelist
+        where application_name = #{applicationName,jdbcType=VARCHAR} and module_attr = #{moduleAttr,jdbcType=INTEGER}
     </select>
     <select id="selectMenu" resultMap="BaseResultMap">
         select
@@ -217,14 +223,14 @@
             #{item.moduleCode,jdbcType=VARCHAR}, #{item.moduleIcon,jdbcType=VARCHAR},
             #{item.moduleUrl,jdbcType=VARCHAR},
             #{item.moduleTarget,jdbcType=VARCHAR}, #{item.moduleType,jdbcType=INTEGER},
-            #{item.moduleStatus,jdbcType=INTEGER},#{sortNum,jdbcType=INTEGER},
+            #{item.moduleStatus,jdbcType=INTEGER},#{item.sortNum,jdbcType=INTEGER},
             #{item.createUser,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP})
         </foreach>
     </insert>
     <insert id="insertBatchSelective" parameterType="java.util.List">
         insert into sys_modulelist
         (id, pid, module_name, module_code, module_icon, module_url, module_target, module_type,
-        module_status, sort_num, create_user, create_time)
+        module_status, sort_num, create_user, create_time, application_name, module_attr)
         values
         <foreach collection="list" index="index" item="item" separator=",">
             <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -283,7 +289,7 @@
                     NULL,
                 </if>
                 <if test="item.sortNum != null">
-                    #{sortNum,jdbcType=INTEGER},
+                    #{item.sortNum,jdbcType=INTEGER},
                 </if>
                 <if test="item.sortNum == null">
                     NULL,
@@ -298,6 +304,18 @@
                     #{item.createTime,jdbcType=TIMESTAMP},
                 </if>
                 <if test="item.createTime == null">
+                    NULL,
+                </if>
+                <if test="item.applicationName != null">
+                    #{item.applicationName,jdbcType=VARCHAR},
+                </if>
+                <if test="item.applicationName == null">
+                    NULL,
+                </if>
+                <if test="item.moduleAttr != null">
+                    #{item.moduleAttr,jdbcType=INTEGER},
+                </if>
+                <if test="item.moduleAttr == null">
                     NULL,
                 </if>
             </trim>

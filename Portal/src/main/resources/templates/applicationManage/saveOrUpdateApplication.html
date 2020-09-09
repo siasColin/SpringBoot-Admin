@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <meta name="_csrf" th:content="${_csrf !=null} ? ${_csrf.token} : ''"/>
     <meta name="_csrf_header"  th:content="${_csrf !=null} ? ${_csrf.headerName} : ''"/>
-    <title>用户管理</title>
+    <title>应用管理</title>
     <link rel="stylesheet" th:href="@{/plugin/layui/css/layui.css}" media="all">
     <link rel="stylesheet" th:href="@{/plugin/zTree_v3/css/zTreeStyle/zTreeStyle.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/common/dasui.css}">
@@ -79,6 +79,7 @@
 <script th:src="@{/js/common/layuiFromVerify.js}"></script>
 <script th:src="@{/plugin/zTree_v3/js/jquery.ztree.all.js}"></script>
 <script th:src="@{/js/common/common.js}"></script>
+<script th:src="@{/js/applicationManage/saveOrUpdateApplication.js}"></script>
 <script>
     layui.use('form', function(){
         var form = layui.form;

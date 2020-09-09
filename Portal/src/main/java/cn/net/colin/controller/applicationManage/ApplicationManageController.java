@@ -2,6 +2,8 @@ package cn.net.colin.controller.applicationManage;
 
 import cn.net.colin.common.exception.entity.ResultCode;
 import cn.net.colin.common.exception.entity.ResultInfo;
+import cn.net.colin.common.util.SnowflakeIdWorker;
+import cn.net.colin.common.util.SpringSecurityUtil;
 import cn.net.colin.model.applicationManage.SysApplication;
 import cn.net.colin.model.applicationManage.SysApplicationCriteria;
 import cn.net.colin.model.sysManage.SysUser;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -74,6 +77,30 @@ public class ApplicationManageController {
         return "applicationManage/saveOrUpdateApplication";
     }
 
+    /**
+     * 保存应用信息
+     * @param sysApplication
+     * @return
+     */
+    @PostMapping("/application")
+    @ResponseBody
+    public ResultInfo saveApplication(SysApplication sysApplication){
+        ResultInfo resultInfo = ResultInfo.of(ResultCode.STATUS_CODE_450);
+        SysUser sysUser = SpringSecurityUtil.getPrincipal();
+        sysApplication.setId(SnowflakeIdWorker.generateId());
+        if (sysUser != null) {
+            sysApplication.setCreateUser(sysUser.getLoginName());
+        }
+        sysApplication.setCreateTime(new Date());
+        int num = applicationService.insertSelective(sysApplication);
+        if(num > 0){
+            resultInfo = ResultInfo.ofData(ResultCode.SUCCESS,sysApplication);
+        }else{
+            resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
+        }
+        return  resultInfo;
+    }
+
 
     /**
      * 跳转到应用编辑页面
@@ -84,5 +111,23 @@ public class ApplicationManageController {
         SysApplication sysApplication = applicationService.selectByPrimaryKey(Long.parseLong(id));
         modelMap.put("sysApplication",sysApplication);
         return "applicationManage/saveOrUpdateApplication";
+    }
+
+    /**
+     * 更新应用信息
+     * @param sysApplication
+     * @return
+     */
+    @PutMapping("/application")
+    @ResponseBody
+    public ResultInfo updateApplication(SysApplication sysApplication){
+        ResultInfo resultInfo = ResultInfo.of(ResultCode.STATUS_CODE_450);
+        int num = applicationService.updateByPrimaryKeySelective(sysApplication);
+        if(num > 0){
+            resultInfo = ResultInfo.ofData(ResultCode.SUCCESS,sysApplication);
+        }else{
+            resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
+        }
+        return  resultInfo;
     }
 }

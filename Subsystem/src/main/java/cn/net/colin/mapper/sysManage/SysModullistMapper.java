@@ -108,5 +108,5 @@ public interface SysModullistMapper {
      * @param moduleCode
      * @return
      */
-    SysModulelist selectByModuleCode(@Param("moduleCode") String moduleCode);
+    SysModulelist selectByModuleCode(@Param("moduleCode") String moduleCode,@Param("applicationName") String applicationName);
 }

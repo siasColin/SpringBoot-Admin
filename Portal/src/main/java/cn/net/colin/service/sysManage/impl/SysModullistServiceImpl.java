@@ -100,12 +100,12 @@ public class SysModullistServiceImpl implements ISysModullistService {
             List<SysRole> sysRoleList = this.sysRoleMapper.selectByUserId(sysUser.getId());
             if(sysRoleList != null && sysRoleList.size() >0){
                 //首先查询系统根节点，这里约定好每个子系统根节点的moduleCode等于该子系统的applicationName转大写
-                SysModulelist sysModulelist = sysModullistMapper.selectByModuleCode(applicationName);
+                SysModulelist sysModulelist = sysModullistMapper.selectByModuleCode(applicationName.toUpperCase(),applicationName);
                 if(sysModulelist != null){
                     Map<String,Object> menuParams = new HashMap<String,Object>();
                     menuParams.put("sysRoleList",sysRoleList);
                     menuParams.put("pid",sysModulelist.getId());
-                    menuParams.put("applicationName",applicationName.toUpperCase());
+                    menuParams.put("applicationName",applicationName);
                     firstMuneList = this.sysModullistMapper.selectMenu(menuParams);
                 }
             }

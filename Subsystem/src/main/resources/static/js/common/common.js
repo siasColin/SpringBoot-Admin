@@ -4,6 +4,7 @@ Date.prototype.format=function(format){var d=this,o={"M+":d.getMonth()+1,"d+":d.
 var _header = $("meta[name='_csrf_header']").attr("content");
 var _token =$("meta[name='_csrf']").attr("content");
 var Common = {
+    portalPath: "http://192.168.0.135:8081/",
     //当前项目名称
     ctxPath: "/",
     version:"",

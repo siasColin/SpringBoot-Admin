@@ -1,9 +1,13 @@
 package cn.net.colin.controller.common;
 
+import cn.net.colin.common.config.RsaKeyProperties;
 import cn.net.colin.common.exception.entity.ResultCode;
 import cn.net.colin.common.exception.entity.ResultInfo;
+import cn.net.colin.common.util.JwtUtils;
+import cn.net.colin.common.util.SpringSecurityUtil;
 import cn.net.colin.controller.sysManage.MenuManageController;
 import cn.net.colin.model.sysManage.SysModulelist;
+import cn.net.colin.model.sysManage.SysUser;
 import cn.net.colin.service.sysManage.ISysModullistService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +29,8 @@ import java.util.Map;
 @Controller
 public class LoginController {
     Logger logger = LoggerFactory.getLogger(LoginController.class);
+    @Autowired
+    private RsaKeyProperties prop;
     @Autowired
     private ISysModullistService sysModullistService;
 
@@ -77,5 +83,20 @@ public class LoginController {
         Map<String,Object> resultMap = this.sysModullistService.selectChildMenu(moduleId);
         resultInfo = ResultInfo.ofData(ResultCode.SUCCESS,resultMap);
         return resultInfo;
+    }
+
+    @GetMapping("/loginToken")
+    @ResponseBody
+    public ResultInfo getLoginToken(){
+        SysUser loginUser = SpringSecurityUtil.getPrincipal();
+        if(loginUser != null){
+            SysUser tokenUser = new SysUser();
+            tokenUser.setLoginName(loginUser.getLoginName());
+            //设置过期时间10s
+            String token = JwtUtils.generateTokenExpireInSeconds(loginUser, prop.getPrivateKey(), 10);
+            return ResultInfo.ofData(ResultCode.SUCCESS,"Bearer "+token);
+        }else{
+            return ResultInfo.of(ResultCode.STATUS_CODE_406);
+        }
     }
 }

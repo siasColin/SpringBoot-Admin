@@ -105,6 +105,14 @@ body{
   margin-top: 15px;
   font-size: 20px;
 }
+.contentBigBox #headerNav .navTime >ul .home, .contentBigBox #headerNav .navTime ul .list {
+	cursor: pointer;
+}
+.contentBigBox #headerNav .navTime >ul .home i {
+	margin-top: 18px;
+	margin-right: 10px;
+	font-size: 20px;
+}
 .contentBigBox #headerNav .navTime >ul .list{
 	background: #163C87;
 	text-align: center;

@@ -149,6 +149,14 @@ function setIframeSrc(url, menulevel, obj, moduleTarget) {
     }
 }
 
+function goPortal(){
+    Common.ajax('loginToken',null,true,'GET',toPortal);
+}
+function toPortal(data){
+    data = encodeURIComponent(encodeURIComponent(data))
+    window.open(Common.portalPath+"main?Authorization="+data)
+}
+
 
 $(function () {
     layui.use('upload', function () {

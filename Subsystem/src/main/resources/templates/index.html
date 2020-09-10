@@ -45,6 +45,9 @@
 									<p id="testt">2018年8月15日</p>
 									<p>星期三</p>
 								</li>-->
+								<li class="home" onclick="goPortal();" title="门户">
+									<i class="icon-home"></i>
+								</li>
 								<li>
 									<!--<img id="headImg" th:src="@{/{headImg}(headImg=${#authentication.principal.headImg})}" src="image/boy-01.png" style="border-radius: 50%;width: 50px;height: 50px;margin-top: 3px;cursor: pointer;">-->
 									<img id="headImg" th:src="${#authentication.principal.headImg}" src="image/boy-01.png" style="border-radius: 50%;width: 50px;height: 50px;margin-top: 3px;cursor: pointer;">
@@ -54,7 +57,7 @@
 									<span class="span"><span sec:authentication="name"></span>,欢迎你！</span>
 								</li>
 								<li class="exit" onclick="logout();">
-									<i class=" icon-signout"></i>
+									<i class="icon-signout"></i>
 								</li>
 								<li class="list" id="moreMenu">
 									<i class="icon-th-list"></i>

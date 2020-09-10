@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 
 /**
  * @Package: cn.net.colin.filter
@@ -44,6 +45,23 @@ public class LoginFilter extends OncePerRequestFilter {
                                     FilterChain chain) throws ServletException, IOException {
         String header = request.getHeader("Authorization");
         if (header == null || !header.startsWith("Bearer ")) { //如果没有携带有效token，则直接放行执行过滤器链中下一个过滤器
+            //判断request 参数中是否携带token,主要用于不同系统间的跳转
+            header = request.getParameter("Authorization");
+            if(header != null && header.startsWith("Bearer")){
+                header = URLDecoder.decode(header,"UTF-8");
+                String token = header.replace("Bearer ", "");
+                //验证tken是否正确
+                try{
+                    Payload<SysUser> payload = JwtUtils.getInfoFromToken(token, prop.getPublicKey(), SysUser.class);
+                    SysUser user = payload.getUserInfo();
+                    //refreshToken_ 开头的是用于刷新的token
+                    if(user!=null && !user.getLoginName().startsWith("refreshToken_")){//验证通过
+                        UserDetails userDetails = sysUserService.loadUserByUsername(user.getLoginName());
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    }
+                }catch (Exception e){}
+            }
             chain.doFilter(request, response);
         } else {//如果携带了token，则进行token校验
             //如果携带了正确格式的token要先得到token

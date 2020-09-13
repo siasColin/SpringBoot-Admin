@@ -4,7 +4,7 @@ spring:
   application:
     name: Subsystem
   profiles:
-    active: dev
+    active: uat
   thymeleaf:
   # 禁用缓存
     cache: false
@@ -23,9 +23,9 @@ spring:
       # 上传文件的临时目录 （linux的默认临时目录定时会被删除会导致上传失败，尽量指定临时目录）
       location: D:/temp
       # 上传文件最大为 1M （默认值 1M 根据自身业务自行控制即可）
-      max-file-size: 10MB
+      max-file-size: 100MB
       # 设置总上传的数据大小 10M（默认值10M 根据自身业务自行控制即可）
-      max-request-size: 100MB
+      max-request-size: 1000MB
       # 文件大小阈值，当大于这个阈值时将写入到磁盘，否则存在内存中，（默认值0 一般情况下不用特意修改）
       file-size-threshold: 0
   resources:
@@ -39,7 +39,7 @@ spring:
             class: org.quartz.simpl.SimpleThreadPool
             # 并发个数  如果你只有几个工作每天触发几次 那么1个线程就可以,如果你有成千上万的工作，每分钟都有很多工作 那么久需要50-100之间.
             # 只有1到100之间的数字是非常实用的
-            threadCount: 10
+            threadCount: 5
             # 优先级 默认值为5
             threadPriority: 5
             #可以是“true”或“false”，默认为false
@@ -84,3 +84,6 @@ executor:
 
 # quartzWorkID quartz定时任务标识码，启动多个服务时用于区分一个任务属于哪个服务
 quartzWorkID: 1
+
+custom-common:
+  subsystem-wait-millis: 1000

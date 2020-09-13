@@ -4,6 +4,7 @@ import cn.net.colin.common.Constants;
 import cn.net.colin.common.exception.entity.ResultCode;
 import cn.net.colin.common.exception.entity.ResultInfo;
 import cn.net.colin.common.helper.RedisLock;
+import cn.net.colin.common.properties.CustomCommonProperties;
 import cn.net.colin.common.util.DynamicDataSourceSwitcher;
 import cn.net.colin.common.util.RequestUtil;
 import cn.net.colin.common.util.SnowflakeIdWorker;
@@ -49,9 +50,10 @@ public class UserManageController {
     private ISysUserService sysUserService;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     @Autowired
     private RedisLock redisLock;
+    @Autowired
+    private CustomCommonProperties commonProperties;
 
     @GetMapping("/userManageList")
     public String userManageList(){
@@ -138,8 +140,8 @@ public class UserManageController {
                 }else{
                     resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 }
-                //由于数据是直接保存到门户，再由门户分发到各子系统，这里休眠1s，等待数据同步到本系统，避免直接返回页面没有变化。（当然也可以提示用户稍后刷新查看）
-                Thread.sleep(1000);
+                //由于数据是直接保存到门户，再由门户分发到各子系统，这里休眠指定时间，等待数据同步到本系统，避免直接返回页面没有变化。（当然也可以提示用户稍后刷新查看）
+                Thread.sleep(commonProperties.getSubsystemWaitMillis());
             }catch (Exception e){
                 resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 e.printStackTrace();
@@ -207,8 +209,8 @@ public class UserManageController {
                 }else{
                     resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 }
-                //由于数据是直接保存到门户，再由门户分发到各子系统，这里休眠1s，等待数据同步到本系统，避免直接返回页面没有变化。（当然也可以提示用户稍后刷新查看）
-                Thread.sleep(1000);
+                //由于数据是直接保存到门户，再由门户分发到各子系统，这里休眠指定时间，等待数据同步到本系统，避免直接返回页面没有变化。（当然也可以提示用户稍后刷新查看）
+                Thread.sleep(commonProperties.getSubsystemWaitMillis());
             }catch (Exception e){
                 resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 e.printStackTrace();
@@ -284,8 +286,8 @@ public class UserManageController {
                 }else{
                     resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);
                 }
-                //由于数据是直接保存到门户，再由门户分发到各子系统，这里休眠1s，等待数据同步到本系统，避免直接返回页面没有变化。（当然也可以提示用户稍后刷新查看）
-                Thread.sleep(1000);
+                //由于数据是直接保存到门户，再由门户分发到各子系统，这里休眠指定时间，等待数据同步到本系统，避免直接返回页面没有变化。（当然也可以提示用户稍后刷新查看）
+                Thread.sleep(commonProperties.getSubsystemWaitMillis());
             }catch (Exception e){
                 e.printStackTrace();
                 resultInfo = ResultInfo.of(ResultCode.UNKNOWN_ERROR);

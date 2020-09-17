@@ -24,7 +24,7 @@ public class SyncController {
 
     @PostMapping("/client")
     public ResultInfo client(Long syncDataId){
-        syncService.doSync(syncDataId);
+        syncService.doSyncAsync(syncDataId);
         return ResultInfo.of(ResultCode.SUCCESS);
     }
 }

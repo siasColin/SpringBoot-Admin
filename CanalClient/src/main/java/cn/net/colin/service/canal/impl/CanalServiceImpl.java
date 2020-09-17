@@ -98,9 +98,12 @@ public class CanalServiceImpl implements ICanalService {
             for (SysApplication sysApplication : sysApplications) {
                 String applicationUrl = sysApplication.getApplicationUrl();
                 try{
-                    restTemplate.postForObject(applicationUrl+"/sync/client", paramMap, ResultInfo.class);
+                    ResultInfo resultInfo = restTemplate.postForObject(applicationUrl+"/sync/client", paramMap, ResultInfo.class);
+                    if(!"0".equals(resultInfo.getReturnCode())){//0 成功，非0失败
+                        updateSyncDataItemStatus(syncDataId,sysApplication.getApplicationName(),3);
+                    }
                 }catch (Exception e){
-                    updateSyncDataItemStatus(syncDataId,sysApplication.getApplicationName(),-1);
+                    updateSyncDataItemStatus(syncDataId,sysApplication.getApplicationName(),3);
                     e.printStackTrace();
                 }
             }

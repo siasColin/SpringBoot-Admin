@@ -1,5 +1,9 @@
 package cn.net.colin.service.sync;
 
+import cn.net.colin.common.exception.entity.ResultInfo;
+
+import java.util.Map;
+
 /**
  * @Package: cn.net.colin.service.sync
  * @Author: sxf
@@ -7,5 +11,21 @@ package cn.net.colin.service.sync;
  * @Description:
  */
 public interface ISyncService {
-    void doSync(Long syncDataId);
+    /**
+     * 同步数据-异步
+     * @param syncDataId
+     */
+    void doSyncAsync(Long syncDataId);
+
+    /**
+     * 同步数据
+     * @param syncDataId
+     */
+    boolean doSync(Long syncDataId);
+
+    /**
+     * 查询子系统同步记录
+     * @return
+     */
+    ResultInfo syncRecordListData(Map<String,Object> paramMap);
 }

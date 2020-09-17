@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="_csrf" th:content="${_csrf !=null} ? ${_csrf.token} : ''"/>
+    <meta name="_csrf_header"  th:content="${_csrf !=null} ? ${_csrf.headerName} : ''"/>
+    <title>同步记录</title>
+    <link rel="stylesheet" th:href="@{/plugin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/plugin/zTree_v3/css/zTreeStyle/zTreeStyle.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/common/dasui.css}">
+    <style>
+        body{margin: 10px;}
+    </style>
+</head>
+<body>
+<table class="layui-hide" id="syncRecordlist" lay-filter="syncRecordtable"></table>
+
+<script type="text/html" id="info_toolbar">
+    <div class="layui-btn-container">
+        <a class="layui-btn layui-btn-xs" lay-event="allSync" sec:authorize="hasAnyAuthority('ADMIN_AUTH')">一键同步</a>
+    </div>
+</script>
+
+<script type="text/html" id="barSyncRecordlist">
+    <a class="layui-btn layui-btn-xs" lay-event="details" sec:authorize="hasAnyAuthority('ADMIN_AUTH')">详情</a>
+    <!--执行、忽略按钮之后失败记录才显示-->
+    {{#  if(d.syncStatus == 2 || d.syncStatus == 3){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="dosync" sec:authorize="hasAnyAuthority('ADMIN_AUTH')">执行</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="ignore" sec:authorize="hasAnyAuthority('ADMIN_AUTH')">忽略</a>
+    {{#  } }}
+</script>
+
+<script th:src="@{/js/jquery-2.1.4.min.js}"></script>
+<script th:src="@{/plugin/layui/layui.js}"></script>
+<script th:src="@{/plugin/layui/xm-select.js}"></script>
+<script th:src="@{/js/common/layuiFromVerify.js}"></script>
+<script th:src="@{/plugin/zTree_v3/js/jquery.ztree.all.js}"></script>
+<script th:src="@{/js/common/common.js}"></script>
+<script th:src="@{/js/syncRecord/syncRecordList.js}"></script>
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+        form.render();
+    });
+</script>
+</body>
+</html>

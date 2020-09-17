@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>同步数据详情</title>
+    <link rel="stylesheet" th:href="@{/plugin/layui/css/layui.css}" media="all">
+    <link rel="stylesheet" th:href="@{/css/common/dasui.css}">
+    <style>
+        body{margin: 10px;}
+    </style>
+</head>
+<body>
+<div class="layui-container">
+    <pre class="layui-code" lay-title="原始数据" lay-height="250px">[[${syncData.infoContent}]]</pre>
+    <pre class="layui-code" lay-title="SQL" lay-height="300px">[[${sqlStr}]]</pre>
+</div>
+
+<script th:src="@{/js/jquery-2.1.4.min.js}"></script>
+<script th:src="@{/plugin/layui/layui.js}"></script>
+<script>
+    layui.use(['form','code'], function(){
+        var form = layui.form;
+        form.render();
+        layui.code();
+    });
+</script>
+</body>
+</html>

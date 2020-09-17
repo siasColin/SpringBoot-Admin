@@ -63,7 +63,7 @@ public class MultipleDataSourceConfig {
 
     //配置Druid的监控
     //1、配置一个管理后台的Servlet
-    @Bean
+//    @Bean
     public ServletRegistrationBean statViewServlet(){
         ServletRegistrationBean bean = new ServletRegistrationBean(new StatViewServlet(), "/druid/*");
         Map<String,String> initParams = new HashMap<>();
@@ -80,7 +80,7 @@ public class MultipleDataSourceConfig {
 
 
     //2、配置一个web监控的filter
-    @Bean
+//    @Bean
     public FilterRegistrationBean webStatFilter(){
         FilterRegistrationBean bean = new FilterRegistrationBean();
         bean.setFilter(new WebStatFilter());
@@ -94,7 +94,7 @@ public class MultipleDataSourceConfig {
 
         return  bean;
     }
-    @Bean
+//    @Bean
     public WallFilter wallFilter(){
         WallConfig wc = new WallConfig ();
         // 解决 sql批量执行报错 java.sql.SQLException: sql injection violation, multi-statement not allow

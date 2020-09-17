@@ -29,6 +29,7 @@ public enum ResultCode {
     STATUS_CODE_406("406","没有权限"),
     STATUS_CODE_450("450","系统忙，请稍后重试！"),
     STATUS_CODE_500("500","内部服务器错误,请联系管理员"),
+    SYNC_ERROR("501","有未能自动同步的记录，请先人工处理后再试！"),
     SESSIONINVALID("888","登录状态已过期，请重新登录！"),
     UNKNOWN_ERROR("999","未知异常");
 

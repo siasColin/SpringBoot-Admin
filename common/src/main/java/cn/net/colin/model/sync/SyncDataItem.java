@@ -1,5 +1,10 @@
 package cn.net.colin.model.sync;
 
+import cn.net.colin.common.helper.LongJsonDeserializer;
+import cn.net.colin.common.helper.LongJsonSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,12 +21,16 @@ public class SyncDataItem implements Serializable {
 
     /** 
      * 主键ID
-     */ 
+     */
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long id;
 
     /** 
      * DML数据记录表id
-     */ 
+     */
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long dataId;
 
     /** 
@@ -30,7 +39,7 @@ public class SyncDataItem implements Serializable {
     private String applicationName;
 
     /** 
-     * 状态（-1 推送失败 、0 待同步、1 已同步、2 同步失败）  默认：0
+     * 状态（-1 已忽略、0 待同步、1 已同步、2 同步失败、3 推送失败 ）  默认：0
      */ 
     private Integer syncStatus;
 

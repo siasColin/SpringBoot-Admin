@@ -11,7 +11,7 @@
  Target Server Version : 50730
  File Encoding         : 65001
 
- Date: 13/09/2020 13:13:14
+ Date: 16/09/2020 17:27:06
 */
 
 SET NAMES utf8mb4;
@@ -219,6 +219,7 @@ INSERT INTO `sys_modulelist` VALUES (463939784589500416, 463939432767086592, '�
 INSERT INTO `sys_modulelist` VALUES (463939914340294656, 463939784589500416, '发布文章', 'ARTICLEPUBLISH', 'icon-reorder', 'articleManage/article', 'navTab', 1, 1, 'Subsystem', 1, 1, 'admin', '2020-09-10 15:38:25');
 INSERT INTO `sys_modulelist` VALUES (463940030316994560, 463939784589500416, '已发布', 'MYARTICLElIST', 'icon-reorder', 'articleManage/myArticleList', 'navTab', 1, 1, 'Subsystem', 1, 2, 'admin', '2020-09-10 15:38:53');
 INSERT INTO `sys_modulelist` VALUES (463940168624168960, 463939432767086592, '文章管理', 'ARTICLElIST', 'icon-reorder', 'articleManage/articleList', 'navTab', 1, 1, 'Subsystem', 1, 2, 'admin', '2020-09-10 15:39:26');
+INSERT INTO `sys_modulelist` VALUES (465742386767650816, 463561666653642761, '同步记录', 'SYNCRECORD', 'icon-reorder', 'syncRecord/syncRecordList', 'navTab', 1, 1, 'Subsystem', 1, 6, 'admin', '2020-09-15 15:00:48');
 
 -- ----------------------------
 -- Table structure for sys_operatetype
@@ -423,6 +424,7 @@ INSERT INTO `sys_role_modulelist` VALUES (1, 463939784589500416);
 INSERT INTO `sys_role_modulelist` VALUES (1, 463939914340294656);
 INSERT INTO `sys_role_modulelist` VALUES (1, 463940030316994560);
 INSERT INTO `sys_role_modulelist` VALUES (1, 463940168624168960);
+INSERT INTO `sys_role_modulelist` VALUES (1, 465742386767650816);
 
 -- ----------------------------
 -- Table structure for sys_role_operatetype

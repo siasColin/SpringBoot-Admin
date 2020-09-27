@@ -1,6 +1,6 @@
 package cn.net.colin.service.applicationManage.impl;
 
-import cn.net.colin.common.util.SnowflakeIdWorker;
+import cn.net.colin.common.util.IdWorker;
 import cn.net.colin.mapper.applicationManage.SysApplicationMapper;
 import cn.net.colin.mapper.sysManage.SysModullistMapper;
 import cn.net.colin.mapper.sysManage.SysOperatetypeMapper;
@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.net.colin.service.sysManage.ISysModullistService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,7 +96,7 @@ public class SysApplicationServiceImpl implements SysApplicationService {
                     SysModulelist portalRootMenu = sysModullistMapper.selectByModuleCode(applicationName.toUpperCase(),applicationName);
                     //创建一个子系统的根菜单
                     SysModulelist rootSysModulelist = new SysModulelist();
-                    rootSysModulelist.setId(SnowflakeIdWorker.generateId());
+                    rootSysModulelist.setId(IdWorker.getInstance().generateId());
                     rootSysModulelist.setApplicationName(record.getApplicationName());
                     rootSysModulelist.setPid(1l);
                     rootSysModulelist.setModuleName(record.getApplicationNameZh());
@@ -110,7 +109,7 @@ public class SysApplicationServiceImpl implements SysApplicationService {
                     idMapping.put(portalRootMenu.getId()+"",rootSysModulelist.getId()+"");
                     //处理ID
                     for (SysModulelist sysModule:sysModulelists) {
-                        long newID = SnowflakeIdWorker.generateId();
+                        long newID = IdWorker.getInstance().generateId();
                         idMapping.put(sysModule.getId()+"",newID+"");
                         sysModule.setId(newID);
                         sysModule.setApplicationName(record.getApplicationName());

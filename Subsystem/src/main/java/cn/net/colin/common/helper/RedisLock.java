@@ -1,5 +1,6 @@
 package cn.net.colin.common.helper;
 
+import cn.net.colin.common.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -46,7 +47,7 @@ public class RedisLock {
     /**
      * 锁的后缀
      */
-    private static final String LOCK_SUFFIX = "_redis_lock";
+    private static final String LOCK_SUFFIX = Constants.LOCK_SUFFIX;
 
 
     /**

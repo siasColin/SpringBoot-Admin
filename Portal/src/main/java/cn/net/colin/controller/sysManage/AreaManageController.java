@@ -4,7 +4,7 @@ import cn.net.colin.common.Constants;
 import cn.net.colin.common.exception.entity.ResultCode;
 import cn.net.colin.common.exception.entity.ResultInfo;
 import cn.net.colin.common.helper.RedisLock;
-import cn.net.colin.common.util.SnowflakeIdWorker;
+import cn.net.colin.common.util.IdWorker;
 import cn.net.colin.common.util.SpringSecurityUtil;
 import cn.net.colin.model.common.TreeNode;
 import cn.net.colin.model.sysManage.SysArea;
@@ -197,7 +197,7 @@ public class AreaManageController {
         if(sysArea.getParentCode() == null && (sysArea.getParentCode() != null && sysArea.getParentCode().trim().equals(""))){
             sysArea.setParentCode(sysUser.getSysOrg().getSysArea().getParentCode());
         }
-        sysArea.setId(SnowflakeIdWorker.generateId());
+        sysArea.setId(IdWorker.getInstance().generateId());
         sysArea.setCreateTime(new Date());
         sysArea.setCreateUser(sysUser.getLoginName());
         //使用全局锁，防止出现死锁

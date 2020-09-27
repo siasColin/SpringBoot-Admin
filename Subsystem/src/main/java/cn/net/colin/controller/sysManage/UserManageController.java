@@ -5,10 +5,7 @@ import cn.net.colin.common.exception.entity.ResultCode;
 import cn.net.colin.common.exception.entity.ResultInfo;
 import cn.net.colin.common.helper.RedisLock;
 import cn.net.colin.common.properties.CustomCommonProperties;
-import cn.net.colin.common.util.DynamicDataSourceSwitcher;
-import cn.net.colin.common.util.RequestUtil;
-import cn.net.colin.common.util.SnowflakeIdWorker;
-import cn.net.colin.common.util.SpringSecurityUtil;
+import cn.net.colin.common.util.*;
 import cn.net.colin.model.sysManage.SysUser;
 import cn.net.colin.service.sysManage.ISysUserService;
 import com.github.pagehelper.PageHelper;
@@ -115,7 +112,7 @@ public class UserManageController {
     public ResultInfo saveUser(SysUser user,String [] roleIds){
         ResultInfo resultInfo = ResultInfo.of(ResultCode.STATUS_CODE_450);
         SysUser sysUser = SpringSecurityUtil.getPrincipal();
-        user.setId(SnowflakeIdWorker.generateId());
+        user.setId(IdWorker.getInstance().generateId());
         user.setCreateTime(new Date());
         if(sysUser != null){
             user.setCreateUser(sysUser.getLoginName());

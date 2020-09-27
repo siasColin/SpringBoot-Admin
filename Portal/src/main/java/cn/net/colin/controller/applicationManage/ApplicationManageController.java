@@ -2,7 +2,7 @@ package cn.net.colin.controller.applicationManage;
 
 import cn.net.colin.common.exception.entity.ResultCode;
 import cn.net.colin.common.exception.entity.ResultInfo;
-import cn.net.colin.common.util.SnowflakeIdWorker;
+import cn.net.colin.common.util.IdWorker;
 import cn.net.colin.common.util.SpringSecurityUtil;
 import cn.net.colin.model.applicationManage.SysApplication;
 import cn.net.colin.model.applicationManage.SysApplicationCriteria;
@@ -89,7 +89,7 @@ public class ApplicationManageController {
     public ResultInfo saveApplication(SysApplication sysApplication){
         ResultInfo resultInfo = ResultInfo.of(ResultCode.STATUS_CODE_450);
         SysUser sysUser = SpringSecurityUtil.getPrincipal();
-        sysApplication.setId(SnowflakeIdWorker.generateId());
+        sysApplication.setId(IdWorker.getInstance().generateId());
         if (sysUser != null) {
             sysApplication.setCreateUser(sysUser.getLoginName());
         }

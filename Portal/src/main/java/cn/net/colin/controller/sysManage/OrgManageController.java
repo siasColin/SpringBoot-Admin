@@ -4,8 +4,8 @@ import cn.net.colin.common.Constants;
 import cn.net.colin.common.exception.entity.ResultCode;
 import cn.net.colin.common.exception.entity.ResultInfo;
 import cn.net.colin.common.helper.RedisLock;
+import cn.net.colin.common.util.IdWorker;
 import cn.net.colin.common.util.RequestUtil;
-import cn.net.colin.common.util.SnowflakeIdWorker;
 import cn.net.colin.common.util.SpringSecurityUtil;
 import cn.net.colin.model.common.TreeNode;
 import cn.net.colin.model.sysManage.SysOrg;
@@ -150,7 +150,7 @@ public class OrgManageController {
         if(sysOrg.getOrgLogo() != null && !sysOrg.getOrgLogo().trim().equals("")){
             sysOrg.setOrgLogo(RequestUtil.getBaseUrl(request)+sysOrg.getOrgLogo());
         }
-        sysOrg.setId(SnowflakeIdWorker.generateId());
+        sysOrg.setId(IdWorker.getInstance().generateId());
         sysOrg.setCreateTime(new Date());
         sysOrg.setCreateUser(sysUser.getLoginName());
         //使用全局锁，防止出现死锁

@@ -4,7 +4,7 @@ import cn.net.colin.common.Constants;
 import cn.net.colin.common.exception.entity.ResultCode;
 import cn.net.colin.common.exception.entity.ResultInfo;
 import cn.net.colin.common.helper.RedisLock;
-import cn.net.colin.common.util.SnowflakeIdWorker;
+import cn.net.colin.common.util.IdWorker;
 import cn.net.colin.common.util.SpringSecurityUtil;
 import cn.net.colin.model.common.TreeNode;
 import cn.net.colin.model.sysManage.SysModulelist;
@@ -123,7 +123,7 @@ public class MenuManageController {
                 sysModulelist.setPid(-1l);
             }
         }
-        sysModulelist.setId(SnowflakeIdWorker.generateId());
+        sysModulelist.setId(IdWorker.getInstance().generateId());
         sysModulelist.setCreateTime(new Date());
         sysModulelist.setCreateUser(sysUser.getLoginName());
         //使用全局锁，防止出现死锁

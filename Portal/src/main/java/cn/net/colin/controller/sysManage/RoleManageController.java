@@ -4,7 +4,7 @@ import cn.net.colin.common.Constants;
 import cn.net.colin.common.exception.entity.ResultCode;
 import cn.net.colin.common.exception.entity.ResultInfo;
 import cn.net.colin.common.helper.RedisLock;
-import cn.net.colin.common.util.SnowflakeIdWorker;
+import cn.net.colin.common.util.IdWorker;
 import cn.net.colin.common.util.SpringSecurityUtil;
 import cn.net.colin.model.common.TreeNode;
 import cn.net.colin.model.sysManage.*;
@@ -136,7 +136,7 @@ public class RoleManageController {
         ResultInfo resultInfo = ResultInfo.of(ResultCode.STATUS_CODE_450);
         SysUser sysUser = SpringSecurityUtil.getPrincipal();
         sysRole.setApplicationName(applicationName);
-        sysRole.setId(SnowflakeIdWorker.generateId());
+        sysRole.setId(IdWorker.getInstance().generateId());
         sysRole.setCreateTime(new Date());
         if(sysUser != null){
             sysRole.setCreateUser(sysUser.getLoginName());

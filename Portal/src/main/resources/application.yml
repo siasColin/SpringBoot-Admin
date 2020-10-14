@@ -87,3 +87,7 @@ executor:
 
 # quartzWorkID quartz定时任务标识码，启动多个服务时用于区分一个任务属于哪个服务
 quartzWorkID: 1
+
+# 雪花算法机器ID（0〜1023）
+snowflake:
+  workerId: 1

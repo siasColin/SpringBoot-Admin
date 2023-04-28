@@ -47,90 +47,93 @@ public class LoginFilter extends OncePerRequestFilter {
         if (header == null || !header.startsWith("Bearer ")) { //如果没有携带有效token，则直接放行执行过滤器链中下一个过滤器
             //判断request 参数中是否携带token,主要用于不同系统间的跳转
             header = request.getParameter("Authorization");
-            if(header != null && header.startsWith("Bearer")){
-                header = URLDecoder.decode(header,"UTF-8");
+            if (header != null && header.startsWith("Bearer")) {
+                header = URLDecoder.decode(header, "UTF-8");
                 String token = header.replace("Bearer ", "");
                 //验证tken是否正确
-                try{
+                try {
                     Payload<SysUser> payload = JwtUtils.getInfoFromToken(token, prop.getPublicKey(), SysUser.class);
                     SysUser user = payload.getUserInfo();
                     //refreshToken_ 开头的是用于刷新的token
-                    if(user!=null && !user.getLoginName().startsWith("refreshToken_")){//验证通过
+                    if (user != null && !user.getLoginName().startsWith("refreshToken_")) {//验证通过
                         UserDetails userDetails = sysUserService.loadUserByUsername(user.getLoginName());
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                         SecurityContextHolder.getContext().setAuthentication(authentication);
+                        response.sendRedirect(request.getRequestURI());
                     }
-                }catch (Exception e){}
+                } catch (Exception e) {
+                }
             }
             chain.doFilter(request, response);
         } else {//如果携带了token，则进行token校验
             //如果携带了正确格式的token要先得到token
             String token = header.replace("Bearer ", "");
             //验证tken是否正确
-            try{
+            try {
                 Payload<SysUser> payload = JwtUtils.getInfoFromToken(token, prop.getPublicKey(), SysUser.class);
                 SysUser user = payload.getUserInfo();
                 //refreshToken_ 开头的是用于刷新的token
-                if(user!=null && !user.getLoginName().startsWith("refreshToken_")){//验证通过
+                if (user != null && !user.getLoginName().startsWith("refreshToken_")) {//验证通过
                     UserDetails userDetails = sysUserService.loadUserByUsername(user.getLoginName());
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                     chain.doFilter(request, response);
-                }else{
-                    response(response,ResultCode.TOKEN_ERROR);
+                } else {
+                    response(response, ResultCode.TOKEN_ERROR);
                 }
-            }catch (ExpiredJwtException e){//token过期
+            } catch (ExpiredJwtException e) {//token过期
                 //判断用于刷新的token是否过期
                 String refresh_token = request.getHeader("Refresh_token");
-                try{
+                try {
                     Payload<SysUser> payload = JwtUtils.getInfoFromToken(refresh_token, prop.getPublicKey(), SysUser.class);
                     SysUser user = payload.getUserInfo();
-                    if(user!=null && user.getLoginName().startsWith("refreshToken_")){//验证通过
-                        String loginName = user.getLoginName().replace("refreshToken_","");
+                    if (user != null && user.getLoginName().startsWith("refreshToken_")) {//验证通过
+                        String loginName = user.getLoginName().replace("refreshToken_", "");
                         UserDetails userDetails = sysUserService.loadUserByUsername(loginName);
                         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                         SecurityContextHolder.getContext().setAuthentication(authentication);
                         //生成新的token
                         String newToken = JwtUtils.generateTokenExpireInMinutes(user, prop.getPrivateKey(), 10);
                         //再生成一个refresh_token，用于刷新token,有效期2小时
-                        String newRefresh_token = JwtUtils.generateTokenExpireInMinutes(user, prop.getPrivateKey(), 2*60);
+                        String newRefresh_token = JwtUtils.generateTokenExpireInMinutes(user, prop.getPrivateKey(), 2 * 60);
                         //将两个Token写入response头信息中
-                        response.addHeader("Authorization", "Bearer "+newToken);
+                        response.addHeader("Authorization", "Bearer " + newToken);
                         response.addHeader("Refresh_token", newRefresh_token);
                         chain.doFilter(request, response);
-                    }else{
-                        response(response,ResultCode.TOKEN_ERROR);
+                    } else {
+                        response(response, ResultCode.TOKEN_ERROR);
                     }
                     //尽可能让老的refresh_token失效，可以配合redis完成
-                }catch (ExpiredJwtException ex){//refresh_token过期
-                    response(response,ResultCode.TOKEN_ERROR);
-                }catch (Exception exc){
-                    response(response,ResultCode.TOKEN_ERROR);
+                } catch (ExpiredJwtException ex) {//refresh_token过期
+                    response(response, ResultCode.TOKEN_ERROR);
+                } catch (Exception exc) {
+                    response(response, ResultCode.TOKEN_ERROR);
                 }
-            }catch (Exception e){
-                response(response,ResultCode.TOKEN_ERROR);
+            } catch (Exception e) {
+                response(response, ResultCode.TOKEN_ERROR);
             }
         }
     }
 
     /**
      * 给客户端返回提示数据
+     *
      * @param response
      * @param resultCode
      */
-    private void response(HttpServletResponse response,ResultCode resultCode){
+    private void response(HttpServletResponse response, ResultCode resultCode) {
         PrintWriter out = null;
-        try{
+        try {
             response.setContentType("application/json;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_OK);
             out = response.getWriter();
             ResultInfo resultInfo = ResultInfo.of(resultCode);
             out.write(JsonUtils.toString(resultInfo));
             out.flush();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            if(out != null){
+        } finally {
+            if (out != null) {
                 out.close();
                 out = null;
             }

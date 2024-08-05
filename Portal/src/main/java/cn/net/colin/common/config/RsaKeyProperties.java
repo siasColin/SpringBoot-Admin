@@ -26,8 +26,13 @@ public class RsaKeyProperties {
 
     @PostConstruct
     public void createRsaKey() throws Exception {
-        publicKey = RsaUtils.getPublicKey(pubKeyFile);
-        privateKey = RsaUtils.getPrivateKey(priKeyFile);
+        if (pubKeyFile != null && priKeyFile != null && !pubKeyFile.trim().equals("") && !priKeyFile.trim().equals("")) {
+            try {
+                publicKey = RsaUtils.getPublicKey(pubKeyFile);
+                privateKey = RsaUtils.getPrivateKey(priKeyFile);
+            } catch (Exception e) {
+            }
+        }
     }
 
     public String getPubKeyFile() {

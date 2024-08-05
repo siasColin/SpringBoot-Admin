@@ -17,6 +17,11 @@ import java.io.IOException;
 public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        httpServletRequest.getRequestDispatcher("/authException").forward(httpServletRequest,httpServletResponse);
+        String uri = httpServletRequest.getServletPath();
+        if (uri != null && uri.equals("/logout")) {
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/");
+        } else {
+            httpServletRequest.getRequestDispatcher("/authException").forward(httpServletRequest, httpServletResponse);
+        }
     }
 }
